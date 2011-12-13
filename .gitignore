@@ -1,7 +1,5 @@
 *.user
 *.suo
 *ReSharper*
-SimpleConfigSections/*/Debug
-SimpleConfigSections/*/Release
-Tests.SimpleConfigSections/*/Debug
+SimpleConfigSections/*/[Debug|bin|Release|obj]
 Tests.SimpleConfigSections/*/Release
