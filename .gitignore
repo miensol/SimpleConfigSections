@@ -1,0 +1,7 @@
+*.user
+*.suo
+*ReSharper*
+SimpleConfigSections/*/Debug
+SimpleConfigSections/*/Release
+Tests.SimpleConfigSections/*/Debug
+Tests.SimpleConfigSections/*/Release
