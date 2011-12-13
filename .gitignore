@@ -2,4 +2,4 @@
 *.suo
 *ReSharper*
 SimpleConfigSections/*/[Debug|bin|Release|obj]
-Tests.SimpleConfigSections/*/Release
+Tests.SimpleConfigSections/*/[Debug|bin|Release|obj]
