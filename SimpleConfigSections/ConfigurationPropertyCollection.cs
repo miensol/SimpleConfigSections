@@ -10,13 +10,14 @@ namespace SimpleConfigSections
     internal class ConfigurationPropertyCollection : IEnumerable<ConfigurationProperty>
     {
         private readonly IEnumerable<ConfigurationProperty> _properties;
+        private readonly ConfigurationPropertyFactory _configurationPropertyFactory;
 
         public ConfigurationPropertyCollection(Type interfaceType)
         {
             _properties = interfaceType.GetProperties().Select(CreateConfigurationProperty);
+            _configurationPropertyFactory = new ConfigurationPropertyFactory();
         }
 
-        #region IEnumerable<ConfigurationProperty> Members
 
         public IEnumerator<ConfigurationProperty> GetEnumerator()
         {
@@ -28,7 +29,6 @@ namespace SimpleConfigSections
             return GetEnumerator();
         }
 
-        #endregion
 
         private ConfigurationProperty CreateConfigurationProperty(PropertyInfo pi)
         {
@@ -43,16 +43,12 @@ namespace SimpleConfigSections
                     if (genericTypeDefinition == typeof (IEnumerable<>))
                     {
                         var elementType = propertyType.GetGenericArguments()[0];
-                        return new ConfigurationProperty(propertyName,
-                                                         typeof (ConfigurationElementCollectionForInterface<>).
-                                                             MakeGenericType(elementType));
+                        return _configurationPropertyFactory.Collection(propertyName,elementType);
                     }
                 }
-                return new ConfigurationProperty(propertyName,
-                                                 typeof (ConfigurationElementForInterface<>).MakeGenericType(
-                                                     propertyType));
-            }
-            return new ConfigurationProperty(propertyName, propertyType);
+                return _configurationPropertyFactory.Interface(pi);
+                  }
+            return _configurationPropertyFactory.Simple(pi);
         }
     }
 }

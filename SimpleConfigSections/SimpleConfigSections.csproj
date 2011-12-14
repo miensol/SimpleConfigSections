@@ -31,18 +31,37 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Nuget|AnyCPU'">
+    <OutputPath>..\nugetpackage\lib\net35\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\SimpleConfigSections.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BasicExtensions\BasicExtensions.cs" />
     <Compile Include="ClientValueResolver.cs" />
+    <Compile Include="CompositeConfigurationValidator.cs" />
     <Compile Include="ConcreteConfiguration.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationElementCollectionForInterface.cs" />
     <Compile Include="ConfigurationElementForInterface.cs" />
     <Compile Include="ConfigurationPropertyCollection.cs" />
+    <Compile Include="ConfigurationPropertyFactory.cs" />
     <Compile Include="ConfigurationSection.cs" />
     <Compile Include="ConfigurationSectionForInterface.cs" />
     <Compile Include="ConfigurationSource.cs" />
+    <Compile Include="DefaultAttribute.cs" />
     <Compile Include="IBaseValueProvider.cs" />
     <Compile Include="IConfigValue.cs" />
     <Compile Include="NamingConvention.cs" />
@@ -62,6 +81,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>cd $(OutDir)
+.\UpdateNuspec.ps1</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
