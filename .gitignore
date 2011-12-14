@@ -3,5 +3,9 @@
 *ReSharper*
 SimpleConfigSections/*/Debug
 SimpleConfigSections/*/Release
+SimpleConfigSections/*/Nuget
+SimpleConfigSections/obj
 Tests.SimpleConfigSections/*/Debug
 Tests.SimpleConfigSections/*/Release
+Tests.SimpleConfigSections/obj
+Tests.SimpleConfigSections/*/Nuget
