@@ -9,3 +9,4 @@ Tests.SimpleConfigSections/*/Debug
 Tests.SimpleConfigSections/*/Release
 Tests.SimpleConfigSections/obj
 Tests.SimpleConfigSections/*/Nuget
+nugetpackage
