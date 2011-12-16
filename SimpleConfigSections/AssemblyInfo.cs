@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SimpleConfigSections")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Simplifies defining .net configuration sections")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SimpleConfigSections")]
