@@ -9,7 +9,7 @@ namespace SimpleConfigSections
     internal class CompositeConfigurationValidator : ConfigurationValidatorBase
     {
         private readonly ValidationAttribute[] _validationAttributes;
-        private string _propertyName;
+        private readonly string _propertyName;
 
         public CompositeConfigurationValidator(ValidationAttribute[] validationAttributes, string propertyName)
         {

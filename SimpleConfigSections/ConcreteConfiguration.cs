@@ -38,7 +38,7 @@ namespace SimpleConfigSections
 
         public T ClientValue()
         {
-            return (T)base.ClientValue(typeof(T));
+            return (T)ClientValue(typeof(T));
         }
     }
 }

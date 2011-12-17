@@ -2,7 +2,7 @@
 {
     public class ConfigurationSection<T> : ConfigurationSectionForInterface
     {
-        public ConfigurationSection()
+        protected ConfigurationSection()
             : base(typeof (T))
         {
         }

@@ -5,20 +5,25 @@ namespace SimpleConfigSections
 {
     public class ConfigurationSource
     {
-        public TInterface Get<TInterface>() where TInterface : class
+        private static readonly CacheCallback<SectionIdentity, object> _cachedConfigs =
+            new CacheCallback<SectionIdentity, object>(GetValueForKey);
+
+        private static object GetValueForKey(SectionIdentity sectionIdentity)
         {
-            return new ConcreteConfiguration<TInterface>(this.GetSection<TInterface>()).ClientValue();
+            var concreteConfiguration = new ConcreteConfiguration(sectionIdentity.Section);
+            return concreteConfiguration.ClientValue(sectionIdentity.Type);
         }
 
-        public ConfigurationSection<TInterface> GetSection<TInterface>()
+        public TInterface Get<TInterface>() where TInterface : class
         {
             var sectionName = new NamingConvention().SectionNameByIntefaceType<TInterface>();
             var section = ConfigurationManager.GetSection(sectionName);
-            if (section != null)
+            if (section == null)
             {
-                return section as ConfigurationSection<TInterface>;
+                throw new ConfigurationErrorsException("There is no section named {0}".ToFormat(sectionName));
             }
-            throw new ConfigurationErrorsException("There is no section named {0}".ToFormat(sectionName));
+            return (TInterface)_cachedConfigs.Get(new SectionIdentity(sectionName, typeof(TInterface), 
+                (ConfigurationSectionForInterface)section));
         }
     }
 }

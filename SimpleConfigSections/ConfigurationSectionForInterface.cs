@@ -12,7 +12,7 @@ namespace SimpleConfigSections
         public ConfigurationSectionForInterface(Type interfaceType)
         {
             _interfaceType = interfaceType;
-            _clientValueResolver = new ClientValueResolver(this, _interfaceType);
+            _clientValueResolver = new ClientValueResolver(this, InterfaceType);
         }
 
 
@@ -21,16 +21,19 @@ namespace SimpleConfigSections
             get { return base[propertyName]; }
         }
 
+        public Type InterfaceType
+        {
+            get { return _interfaceType; }
+        }
 
         public object Value(string propName)
         {
             return _clientValueResolver.ClientValue(propName);
         }
-
-
+        
         protected override void Init()
         {
-            new ConfigurationPropertyCollection(_interfaceType).Each(c => Properties.Add(c));
+            new ConfigurationPropertyCollection(InterfaceType).Each(c => Properties.Add(c));
         }
     }
 }

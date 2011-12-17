@@ -9,24 +9,14 @@ namespace Tests.SimpleConfigSections
     public class when_declaring_configuration_section
     {
         private Because b =
-            () => section = ConfigurationManager.GetSection("DeclareAppConfiguration") as ConfigurationSection<IDeclareAppConfiguration>;
+            () => section = ConfigurationManager.GetSection("DeclareAppConfiguration");
 
         private It should_read_configuration_section_properly =
             () => section.ShouldNotBeNull();
             
-        private static ConfigurationSection<IDeclareAppConfiguration> section;
+        private static object section;
     }
 
-    public class when_getting_declared_section_via_configuration
-    {
-        private Because b =
-            () => section = Configuration.GetSection<IDeclareAppConfiguration>();
-
-        private It should_read_config_section_properly =
-            () => section.ShouldNotBeNull();
-
-        private static ConfigurationSection<IDeclareAppConfiguration> section;
-    }
 
     public class when_getting_simple_value_from_declared_configuration
     {

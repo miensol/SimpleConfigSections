@@ -6,10 +6,5 @@
         {
             return new ConfigurationSource().Get<TInterface>();
         }
-
-        public static ConfigurationSection<T> GetSection<T>()
-        {
-            return new ConfigurationSource().GetSection<T>();
-        }
     }
 }

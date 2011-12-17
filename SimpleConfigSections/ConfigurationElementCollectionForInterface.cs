@@ -8,25 +8,33 @@ namespace SimpleConfigSections
     internal class ConfigurationElementCollectionForInterface : ConfigurationElementCollection, IConfigValue
     {
         private readonly Type _elementType;
-
+        private readonly Type _listType;
+        private CacheCallback<int, IList> _list;
         protected ConfigurationElementCollectionForInterface(Type elementType)
         {
             _elementType = elementType;
+            _listType = typeof (List<>).MakeGenericType(new[]
+                                                            {
+                                                                _elementType
+                                                            });
+            _list = new CacheCallback<int, IList>((ignored)=> CreateElements());
         }
 
 
         public object Value(string proprName)
         {
-            var list = (IList) Activator.CreateInstance(typeof (List<>).MakeGenericType(new[]
-                                                                                              {
-                                                                                                  _elementType
-                                                                                              }));
+            return _list.Get(0).GetEnumerator();
+        }
+
+        private IList CreateElements()
+        {
+            var elementList = (IList) Activator.CreateInstance(_listType);
             foreach (IConfigValue configValue in this)
             {
                 var obj = new ConcreteConfiguration(configValue).ClientValue(_elementType);
-                list.Add(obj);
+                elementList.Add(obj);
             }
-            return list.GetEnumerator();
+            return elementList;
         }
 
 
