@@ -2,7 +2,14 @@
 ====================
 
 An attempt to simplfy defining .net ConfigurationSections.
-Below you can find a comparison of classic defintion vs the simplified one.
+If you don't like repeating yourself in code and ugly string values referencing property names this package is definitely for you.
+
+Installation
+---------------------
+From Nuget Package Manager Console
+	
+	Install-Package SimpleConfigSections
+
 
 Simple way of defining ConfigurationSection
 ---------------------
