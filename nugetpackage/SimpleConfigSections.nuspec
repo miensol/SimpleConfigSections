@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SimpleConfigSections</id>
+    <version>1.0.0.1</version>
+    <authors>Piotr Mionskowski</authors>
+    <owners>Piotr Mionskowski</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <projectUrl>http://github.com/miensol/SimpleConfigSections</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simplifies defining .net configuration sections. Removes the ceremony required to define config sections by providing
+a mechanism to define your config structure in terms of plain old interfaces.	
+	</description>
+    <releaseNotes>improved performance by caching castle proxies</releaseNotes>
+    <copyright>Copyright 2011</copyright>
+    <tags>configuration configurationSection</tags>
+    <dependencies>
+      <dependency id="Castle.Core" version="3.0.0.4001" />
+    </dependencies>
+  </metadata>
+</package>
