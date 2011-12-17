@@ -1,4 +1,4 @@
-﻿ďťżSimpleConfigSections
+﻿SimpleConfigSections
 ====================
 
 An attempt to simplfy defining .net ConfigurationSections.
@@ -6,20 +6,20 @@ Below you can find a comparison of classic defintion vs the simplified one.
 
 Simple way of defining ConfigurationSection
 ---------------------
-	public interface IPerformanceSection
+	public class SimpleSection : ConfigurationSection<ISimpleSection>
     {
-        string StringValue { get; }
-        IChildPerformanceSection Child {get;}
-        IEnumerable<IChildPerformanceSection> Elements { get; }
     }
 	
-    public interface IChildPerformanceSection
+	public interface ISimpleSection
+    {
+        string StringValue { get; }
+        IChildSection Child {get;}
+        IEnumerable<IChildSection> Elements { get; }
+    }
+	
+    public interface IChildSection
     {
         double ChildDouble { get; }
-    }
-
-    public class PerformanceSection : ConfigurationSection<IPerformanceSection>
-    {
     }
 	
 Classic way of defining ConfigurationSection
@@ -33,9 +33,9 @@ Classic way of defining ConfigurationSection
         }
 		
         [ConfigurationProperty("Child")]
-        public ChildPerformanceElement Child
+        public ChildClassicElement Child
         {
-            get { return (ChildPerformanceElement)base["Child"]; }
+            get { return (ChildClassicElement)base["Child"]; }
         }
 
         [ConfigurationProperty("Elements")]
@@ -49,7 +49,7 @@ Classic way of defining ConfigurationSection
     {
         protected override ConfigurationElement CreateNewElement()
         {
-            return new ChildPerformanceElement();
+            return new ChildClassicElement();
         }
 
         protected override object GetElementKey(ConfigurationElement element)
@@ -58,7 +58,7 @@ Classic way of defining ConfigurationSection
         }
     }
 	
-    public class ChildPerformanceElement : ConfigurationElement
+    public class ChildClassicElement : ConfigurationElement
     {
         [ConfigurationProperty("ChildDouble")]
         public double ChildDouble
