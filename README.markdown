@@ -23,6 +23,7 @@ Simple way of defining ConfigurationSection
     }
 
 Accessing configuration:
+	
 	ISimpleSection config = Configuration.Get<ISimpleSection>();
 	
 Classic way of defining ConfigurationSection
@@ -71,4 +72,5 @@ Classic way of defining ConfigurationSection
     }
 	
 Accessing configuration:
+	
 	ClassicSection config = (ClassicSection)ConfigurationManager.Get("ClassicSection");
