@@ -1,3 +1,7 @@
+3.0.0 (2011-12-13)
+==================
+no major changes
+
 3.0.0 RC 1 (2011-11-20)
 ==================
 - Applied Jeff Sharps patch that refactored Xml DictionaryAdapter to improve maintainability and enable more complete functionality
