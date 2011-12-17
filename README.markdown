@@ -21,6 +21,9 @@ Simple way of defining ConfigurationSection
     {
         double ChildDouble { get; }
     }
+
+Accessing configuration:
+	ISimpleSection config = Configuration.Get<ISimpleSection>();
 	
 Classic way of defining ConfigurationSection
 ---------------------
@@ -66,3 +69,6 @@ Classic way of defining ConfigurationSection
             get { return (double) base["ChildDouble"]; }
         }
     }
+	
+Accessing configuration:
+	ClassicSection config = (ClassicSection)ConfigurationManager.Get("ClassicSection");
