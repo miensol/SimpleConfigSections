@@ -7,12 +7,11 @@ namespace SimpleConfigSections
     internal class ConcreteConfiguration : IInterceptor
     {
         private readonly IConfigValue _configValue;
-        private readonly ProxyGenerator _proxyGenerator;
+        private static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
         public ConcreteConfiguration(IConfigValue configValue)
         {
             _configValue = configValue;
-            _proxyGenerator = new ProxyGenerator();
         }
 
 
@@ -25,7 +24,7 @@ namespace SimpleConfigSections
 
         public object ClientValue(Type interfaceType)
         {
-            return _proxyGenerator.CreateInterfaceProxyWithoutTarget(interfaceType, this);
+            return ProxyGenerator.CreateInterfaceProxyWithoutTarget(interfaceType, this);
         }
     }
 
