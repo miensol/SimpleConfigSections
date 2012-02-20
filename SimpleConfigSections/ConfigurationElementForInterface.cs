@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using SimpleConfigSections.BasicExtensions;
+using System.Linq;
 
 namespace SimpleConfigSections
 {
@@ -23,9 +24,9 @@ namespace SimpleConfigSections
             _clientValueResolver = new ClientValueResolver(this, _interfaceType);
         }
 
-        public object Value(string propName)
+        public object Value(string propertyName)
         {
-            return _clientValueResolver.ClientValue(propName);
+            return _clientValueResolver.ClientValue(propertyName);
         }
 
         protected override void Init()
@@ -38,5 +39,11 @@ namespace SimpleConfigSections
         {
             get { return base[propertyName]; }
         }
+
+        public ConfigurationProperty Get(string propertyName)
+        {
+            return Properties.Cast<ConfigurationProperty>().Single(p => p.Name == propertyName);
+        }
+
     }
 }

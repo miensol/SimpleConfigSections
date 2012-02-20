@@ -73,6 +73,7 @@
     <Compile Include="IBaseValueProvider.cs" />
     <Compile Include="IConfigValue.cs" />
     <Compile Include="NamingConvention.cs" />
+    <Compile Include="ReflectionHelpers.cs" />
     <Compile Include="SectionIdentity.cs" />
   </ItemGroup>
   <ItemGroup>

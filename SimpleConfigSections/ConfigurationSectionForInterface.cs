@@ -26,9 +26,9 @@ namespace SimpleConfigSections
             get { return _interfaceType; }
         }
 
-        public object Value(string propName)
+        public object Value(string propertyName)
         {
-            return _clientValueResolver.ClientValue(propName);
+            return _clientValueResolver.ClientValue(propertyName);
         }
         
         protected override void Init()

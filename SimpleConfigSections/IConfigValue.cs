@@ -2,6 +2,6 @@
 {
     internal interface IConfigValue
     {
-        object Value(string proprName);
+        object Value(string propertyName);
     }
 }

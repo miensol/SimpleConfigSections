@@ -33,7 +33,6 @@ namespace SimpleConfigSections
         private ConfigurationProperty CreateConfigurationProperty(PropertyInfo pi)
         {
             var propertyType = pi.PropertyType;
-            var propertyName = pi.Name;
             if (propertyType.IsInterface)
             {
                 if (propertyType.IsGenericType)
@@ -43,7 +42,7 @@ namespace SimpleConfigSections
                     if (genericTypeDefinition == typeof (IEnumerable<>))
                     {
                         var elementType = propertyType.GetGenericArguments()[0];
-                        return _configurationPropertyFactory.Collection(propertyName,elementType);
+                        return _configurationPropertyFactory.Collection(pi,elementType);
                     }
                 }
                 return _configurationPropertyFactory.Interface(pi);

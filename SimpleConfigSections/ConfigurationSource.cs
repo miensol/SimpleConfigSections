@@ -8,6 +8,10 @@ namespace SimpleConfigSections
         private static readonly CacheCallback<SectionIdentity, object> _cachedConfigs =
             new CacheCallback<SectionIdentity, object>(GetValueForKey);
 
+        public ConfigurationSource()
+        {
+        }
+
         private static object GetValueForKey(SectionIdentity sectionIdentity)
         {
             var concreteConfiguration = new ConcreteConfiguration(sectionIdentity.Section);
@@ -16,7 +20,7 @@ namespace SimpleConfigSections
 
         public TInterface Get<TInterface>() where TInterface : class
         {
-            var sectionName = new NamingConvention().SectionNameByIntefaceType<TInterface>();
+            var sectionName = NamingConvention.Current.SectionNameByIntefaceType<TInterface>();
             var section = ConfigurationManager.GetSection(sectionName);
             if (section == null)
             {

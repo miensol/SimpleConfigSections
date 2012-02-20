@@ -29,10 +29,7 @@ namespace SimpleConfigSections
                     new ConcreteConfiguration((IConfigValue)obj).ClientValue(
                         _sourceInterfaceType.GetProperty(propertyName).PropertyType);
             }
-            else
-            {
-                return obj;
-            }
+            return obj;
         }
     }
 }
