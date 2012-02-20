@@ -83,6 +83,7 @@ Accessing configuration:
 	ClassicSection config = (ClassicSection)ConfigurationManager.Get("ClassicSection");
 	
 All configuration sections have to be declared in application configuration file
+
 	<?xml version="1.0"?>
 	<configuration>
 	  <configSections>
