@@ -81,3 +81,19 @@ Classic way of defining ConfigurationSection
 Accessing configuration:
 	
 	ClassicSection config = (ClassicSection)ConfigurationManager.Get("ClassicSection");
+	
+
+Naming Convention
+---------------------
+	You can change how configuration elements are named by customizing NamingConvention.
+	
+	Configuration.WithNamingConvention(new MyCustomNamingConvention());
+	
+	class MyCustomNamingConvention : NamingConvention 
+	{
+		public override string AddToCollectionElementName(Type collectionElementType, string propertyName)
+		{
+			return "addToCollection";
+		}
+	}
+
