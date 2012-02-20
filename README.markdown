@@ -82,10 +82,28 @@ Accessing configuration:
 	
 	ClassicSection config = (ClassicSection)ConfigurationManager.Get("ClassicSection");
 	
+All configuration sections have to be declared in application configuration file
+	<?xml version="1.0"?>
+	<configuration>
+	  <configSections>
+		<section type="MyNameSpace.ClassicSection, MyNameSpace" name="ClassicSection"/>
+		<section type="MyNameSpace.SimpleSection, MyNameSpace" name="SimpleSection"/>
+	  </configSections>
+	  
+	  <SimpleSection StringValue="YourValue">
+		<Child ChildDouble="3.14" />
+		<Elements>
+			<add ChildDouble="2.8" />
+			<add ChildDouble="-2.8" />
+		</Elements>
+	  </SimpleSection>
+	  <!-- Classic configuration section element looks pretty much the same -->
+	</configuration>
 
+	
 Naming Convention
 ---------------------
-	You can change how configuration elements are named by customizing NamingConvention.
+You can change how configuration elements are named by customizing NamingConvention.
 	
 	Configuration.WithNamingConvention(new MyCustomNamingConvention());
 	
