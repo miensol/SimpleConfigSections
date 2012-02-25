@@ -115,4 +115,22 @@ You can change how configuration elements are named by customizing NamingConvent
 			return "addToCollection";
 		}
 	}
+	
+Validation
+---------------------
+You can mark your properties with attributes deriving from System.ComponentModel.DataAnnotations.ValidationAttribute to get validation
+	
+	public interface ISectionWithValidators
+    {
+        [StringLength(3)]
+        string ToLong { get; set; }
+        
+	    [Required]
+        string RequiredButNotPresent { get; set; }
+    }
 
+Note that, as with any ConfigurationSection a validation occurs when retreiving it. So when if you configuration section is not valid the
+
+	 System.Configuration.ConfigurationErrorsException
+ 
+will be thrown.
