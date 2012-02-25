@@ -129,8 +129,10 @@ You can mark your properties with attributes deriving from System.ComponentModel
         string RequiredButNotPresent { get; set; }
     }
 
-Note that, as with any ConfigurationSection a validation occurs when retreiving it. So when if you configuration section is not valid the
+Note that, as with any ConfigurationSection a validation occurs when retreiving it. If your configuration section is not valid the
 
 	 System.Configuration.ConfigurationErrorsException
  
-will be thrown.
+will be thrown when you call
+
+	Configuration.Get<ISectionWithValidators>();
