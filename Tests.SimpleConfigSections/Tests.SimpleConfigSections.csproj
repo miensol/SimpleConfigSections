@@ -52,7 +52,6 @@
     <Compile Include="ChildConfigurationSectionSpecs.cs" />
     <Compile Include="ConfigurationsAttributeSpecs.cs" />
     <Compile Include="DeclareConfigurationSectionSpecs.cs" />
-    <Compile Include="ISectionWithRequiredAttribute.cs" />
     <Compile Include="NamingConventionSpecs.cs" />
     <Compile Include="PerformanceSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
