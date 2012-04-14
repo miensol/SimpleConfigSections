@@ -29,7 +29,7 @@ namespace Tests.SimpleConfigSections
                 .ShouldEqual("customClearElementName");
 
         It should_use_default_convention_value_instead_of_whitespace_strings =
-            () => NamingConvention.Current.SectionNameByIntefaceType<IDeclareAppConfiguration>()
+            () => NamingConvention.Current.SectionNameByIntefaceType(typeof(IDeclareAppConfiguration))
                     .ShouldEqual("DeclareAppConfiguration");
 
         private class ReturningNullValuesConvention : NamingConvention

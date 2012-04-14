@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tests.SimpleConfigSections</RootNamespace>
     <AssemblyName>Tests.SimpleConfigSections</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -53,6 +53,7 @@
     <Compile Include="ConfigurationsAttributeSpecs.cs" />
     <Compile Include="DeclareConfigurationSectionSpecs.cs" />
     <Compile Include="NamingConventionSpecs.cs" />
+    <Compile Include="NestedCollectionsWithRequiredAttributesSpecs.cs" />
     <Compile Include="PerformanceSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationExtensions.cs" />

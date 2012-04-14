@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using SimpleConfigSections.BasicExtensions;
+using System.Linq;
 
 namespace SimpleConfigSections
 {
@@ -30,10 +30,11 @@ namespace SimpleConfigSections
         {
             return _clientValueResolver.ClientValue(propertyName);
         }
-        
+
         protected override void Init()
         {
-            new ConfigurationPropertyCollection(InterfaceType).Each(c => Properties.Add(c));
-        }
+            new ConfigurationPropertyCollection(_interfaceType, GetType()).ToList();
+            base.Init();
+        }        
     }
 }

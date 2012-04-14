@@ -18,7 +18,7 @@ namespace SimpleConfigSections
         private readonly Type _interfaceType;
         private readonly ClientValueResolver _clientValueResolver;
 
-        public ConfigurationElementForInterface(Type interfaceType)
+        protected ConfigurationElementForInterface(Type interfaceType)
         {
             _interfaceType = interfaceType;
             _clientValueResolver = new ClientValueResolver(this, _interfaceType);
@@ -29,21 +29,15 @@ namespace SimpleConfigSections
             return _clientValueResolver.ClientValue(propertyName);
         }
 
-        protected override void Init()
-        {
-            var colection = new ConfigurationPropertyCollection(_interfaceType);
-            colection.Each(c => Properties.Add(c));
-        }
-
         public new object this[string propertyName]
         {
             get { return base[propertyName]; }
         }
 
-        public ConfigurationProperty Get(string propertyName)
+        protected override void Init()
         {
-            return Properties.Cast<ConfigurationProperty>().Single(p => p.Name == propertyName);
+            new ConfigurationPropertyCollection(_interfaceType, GetType()).ToList();
+            base.Init();
         }
-
     }
 }

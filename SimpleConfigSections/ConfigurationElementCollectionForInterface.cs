@@ -19,7 +19,7 @@ namespace SimpleConfigSections
                                                             {
                                                                 _elementType
                                                             });
-            _list = new CacheCallback<int, IList>(ignored=> CreateElements());            
+            _list = new CacheCallback<int, IList>(ignored=> CreateElements());
         }
 
 
@@ -41,8 +41,9 @@ namespace SimpleConfigSections
 
 
         protected override ConfigurationElement CreateNewElement()
-        {
-            return new ConfigurationElementForInterface(_elementType);
+        {            
+            var configurationElementForInterface = (ConfigurationElement)Activator.CreateInstance(typeof(ConfigurationElementForInterface<>).MakeGenericType(_elementType));            
+            return configurationElementForInterface;
         }
 
         protected override object GetElementKey(ConfigurationElement element)

@@ -3,14 +3,14 @@ using SimpleConfigSections.BasicExtensions;
 
 namespace SimpleConfigSections
 {
-    public class NamingConvention
+    public class NamingConvention : INamingConvention
     {
-        private static NamingConvention _current = new NamingConvention();
+        private static INamingConvention _current = new NamingConvention();
 
-        public static NamingConvention Current
+        public static INamingConvention Current
         {
             get { return _current; }
-            internal set
+            set
             {
                 if(value == null)
                 {
@@ -32,6 +32,11 @@ namespace SimpleConfigSections
             return interfaceType.Name.Substring(1);
         }
 
+        public virtual string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
+        {
+            return propertyName;
+        }
+
         public virtual string AddToCollectionElementName(Type collectionElementType, string propertyName)
         {
             return "add";
@@ -47,43 +52,51 @@ namespace SimpleConfigSections
             return "clear";
         }
 
-        private class CheckForInvalidNamesDecorator : NamingConvention
+        private class CheckForInvalidNamesDecorator : INamingConvention
         {
-            private readonly NamingConvention _realConvention;
-            private readonly NamingConvention _defaultConvention;
+            private readonly INamingConvention _realConvention;
+            private readonly INamingConvention _defaultConvention;
 
-            public CheckForInvalidNamesDecorator(NamingConvention realConvention)
+            public CheckForInvalidNamesDecorator(INamingConvention realConvention)
             {
                 _realConvention = realConvention;
                 _defaultConvention = new NamingConvention();
             }
 
-            public override string AddToCollectionElementName(Type collectionElementType, string propertyName)
+            public string AddToCollectionElementName(Type collectionElementType, string propertyName)
             {
                 return
                     IfEmptyStringThenDefault(
                         conv => conv.AddToCollectionElementName(collectionElementType, propertyName));
             }
-            public override string RemoveFromCollectionElementName(Type collectionElementType, string propertyName)
+            public string RemoveFromCollectionElementName(Type collectionElementType, string propertyName)
             {
                 return
                     IfEmptyStringThenDefault(
                         conv => conv.RemoveFromCollectionElementName(collectionElementType, propertyName));
             }
 
-            public override string ClearCollectionElementName(Type collectionElementType, string propertyName)
+            public string ClearCollectionElementName(Type collectionElementType, string propertyName)
             {
                 return
                     IfEmptyStringThenDefault(
                         conv => conv.ClearCollectionElementName(collectionElementType, propertyName));
             }
 
-            public override string SectionNameByIntefaceType(Type interfaceType)
+
+            public string SectionNameByIntefaceType(Type interfaceType)
             {
                 return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceType(interfaceType));
             }
 
-            private string IfEmptyStringThenDefault(Func<NamingConvention, string> convention)
+            public string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
+            {
+                return
+                    IfEmptyStringThenDefault(
+                        conv => conv.SectionNameByIntefaceTypeAndPropertyName(propertyType, propertyName));
+            }
+
+            private string IfEmptyStringThenDefault(Func<INamingConvention, string> convention)
             {
                 var propsedName = convention(_realConvention);
                 if(propsedName.IsNullOrEmptyOrWhiteSpace())

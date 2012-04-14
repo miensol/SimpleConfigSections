@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Reflection;
 using Castle.Core.Internal;
+using System.Linq;
 
 namespace SimpleConfigSections
 {
@@ -14,6 +16,10 @@ namespace SimpleConfigSections
         private static readonly Action<ConfigurationProperty, string> SetRemoveElementName= CreateFieldSetterDelegate("_removeElementName");
 
         private static readonly Action<ConfigurationProperty, string> SetClearElementName= CreateFieldSetterDelegate("_clearElementName");
+
+        public ConfigurationPropertyFactory()
+        {
+        }
 
         internal ConfigurationProperty Collection(PropertyInfo propertyInfo, Type elementType)
         {
@@ -53,27 +59,29 @@ namespace SimpleConfigSections
         {
             var options = GetOptions(pi);
             var defaultValue = GetDefaultValue(pi);
-            var validator = GetValidator(pi);
-            return new ConfigurationProperty(pi.Name, elementType, defaultValue,
-                TypeDescriptor.GetConverter(elementType), validator, options);
+            var validator = GetValidator(pi);            
+            var configurationProperty = new ConfigurationProperty(pi.Name, elementType, defaultValue, TypeDescriptor.GetConverter(elementType), validator, options);            
+            return configurationProperty;
         }
 
         private static ConfigurationPropertyOptions GetOptions(PropertyInfo pi)
         {
             var options = ConfigurationPropertyOptions.None;
-            if (pi.HasAttribute<RequiredAttribute>())
+            var requiredAttribute = pi.GetAttribute<RequiredAttribute>();
+            if (requiredAttribute != null)
             {
                 options = ConfigurationPropertyOptions.IsRequired;
             }
             return options;
         }
 
-        private static object GetDefaultValue(PropertyInfo pi)
+        private static object GetDefaultValue(PropertyInfo member)
         {
             object defaultValue = null;
-            if (pi.HasAttribute<DefaultAttribute>())
+            var defaultAttribute = member.GetAttribute<DefaultAttribute>();
+            if (defaultAttribute != null)
             {
-                defaultValue = pi.GetAttribute<DefaultAttribute>().Default();
+                defaultValue = defaultAttribute.Default();
             }
             return defaultValue;
         }
@@ -81,9 +89,10 @@ namespace SimpleConfigSections
         private static ConfigurationValidatorBase GetValidator(PropertyInfo pi)
         {
             ConfigurationValidatorBase validator = new DefaultValidator();
-            if (pi.HasAttribute<ValidationAttribute>())
+            var validators = pi.GetAttributes<ValidationAttribute>();
+            if (validators.IsNullOrEmpty() == false)
             {
-                validator = new CompositeConfigurationValidator(pi.GetAttributes<ValidationAttribute>(), pi.Name);
+                validator = new CompositeConfigurationValidator(validators, pi.Name);
             }
             return validator;
         }
@@ -91,6 +100,30 @@ namespace SimpleConfigSections
         private static Action<ConfigurationProperty, string> CreateFieldSetterDelegate(string fieldName)
         {
             return typeof (ConfigurationProperty).MakeSetterForPrivateField<ConfigurationProperty, string>(fieldName);
+        }
+    }
+
+    internal class ConfigurationElementHiddenPropertyBagModifier
+    {
+        private static Hashtable PropertyBagAccessor = CreatePropertyBagAccessor();
+
+        private static Hashtable CreatePropertyBagAccessor()
+        {
+            var propertyBagField = typeof (ConfigurationElement).GetField("s_propertyBags",
+                                                                          BindingFlags.Static | BindingFlags.NonPublic);
+            var value = (Hashtable)propertyBagField.GetValue(null);
+            return value;
+        }
+
+        public void AddConfigurationProperty(ConfigurationProperty configurationProperty, Type ownerType)
+        {
+            var properties = (System.Configuration.ConfigurationPropertyCollection)PropertyBagAccessor[ownerType]; 
+            if(properties == null)
+            {
+                properties = new System.Configuration.ConfigurationPropertyCollection();
+                PropertyBagAccessor[ownerType] = properties;
+            }
+            properties.Add(configurationProperty);
         }
     }
 }

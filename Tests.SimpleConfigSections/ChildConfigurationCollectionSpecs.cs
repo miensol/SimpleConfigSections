@@ -14,16 +14,26 @@ namespace Tests.SimpleConfigSections
         protected static T section;
     }
 
-    public abstract class observations_for_getting_configuration_section_with_custom_naming_convention <T>
-        : observations_for_getting_configuration_section<T> where T : class
+    public abstract class observations_for_getting_configuration_section_with_custom_naming_convention<TSection,TConvention> 
+    : observations_for_getting_configuration_section<TSection> 
+        where TSection : class
+        where TConvention : NamingConvention, new()
     {
         private Establish context =
-            () => Configuration.WithNamingConvention(new CustomNamingConverntion());
+            () => Configuration.WithNamingConvention(new TConvention());
 
         private Cleanup after_each = () =>
             Configuration.WithNamingConvention(new NamingConvention());
 
-        private class CustomNamingConverntion : NamingConvention
+    }
+
+    public abstract class observations_for_getting_configuration_section_with_custom_naming_convention <T>
+        : observations_for_getting_configuration_section_with_custom_naming_convention<T, CustomNamingConverntion> where T : class
+    {
+        
+    }
+    
+    public class CustomNamingConverntion : NamingConvention
         {
             public override string AddToCollectionElementName(Type collectionElementType, string propertyName)
             {
@@ -59,8 +69,6 @@ namespace Tests.SimpleConfigSections
             }
 
         }
-    }
-    
 
 
     public class when_reading_child_config_section_that_is_a_collection
@@ -99,7 +107,6 @@ namespace Tests.SimpleConfigSections
     public interface IChangedNamesConfiguration : IDeclareAppConfiguration
     {
     }
-
 
     public class ContainingCollectionConfigSection : ConfigurationSection<IContainingCollectionConfigSection>
     {
