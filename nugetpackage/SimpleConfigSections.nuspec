@@ -11,7 +11,7 @@
     <description>Simplifies defining .net configuration sections. Removes the ceremony required to define config sections by providing
 a mechanism to define your config structure in terms of plain old interfaces.	
 	</description>
-    <releaseNotes>fixed project file</releaseNotes>
+    <releaseNotes>added support for inheritance, fixed bug with nested collections</releaseNotes>
     <copyright>Copyright 2011</copyright>
     <tags>configuration configurationSection</tags>
     <dependencies>
