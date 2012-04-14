@@ -64,6 +64,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationElementCollectionForInterface.cs" />
     <Compile Include="ConfigurationElementForInterface.cs" />
+    <Compile Include="ConfigurationElementHiddenPropertyBagModifier.cs" />
     <Compile Include="ConfigurationPropertyCollection.cs" />
     <Compile Include="ConfigurationPropertyFactory.cs" />
     <Compile Include="ConfigurationSection.cs" />
