@@ -1,4 +1,7 @@
-﻿using Machine.Specifications;
+﻿using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using Machine.Specifications;
 using SimpleConfigSections;
 
 namespace Tests.SimpleConfigSections
@@ -18,6 +21,10 @@ namespace Tests.SimpleConfigSections
                     section.Count.ShouldEqual(42);
                 };
 
+        private It should_be_able_to_read_property_as_simple_type_as_long_as_there_is_a_converter_from_string =
+            () => section.Matcher.ToString().ShouldEqual("123abc456");
+
+
         private It should_be_able_to_call_simple_properties =
             () => section.NameAndCount.ShouldEqual("SimpleName42");
 
@@ -27,7 +34,27 @@ namespace Tests.SimpleConfigSections
         private It should_read_child_class_configuration_properly =
             () => section.Child.ShouldNotBeNull();
 
+        private Establish ctx =
+            () =>
+                {
+                    TypeDescriptor.AddAttributes(typeof (Regex),
+                                                 new TypeConverterAttribute(typeof (RegexFromStringConverter)));
+                };
+
         private static SimpleConfiguration section;
+    }
+
+    internal class RegexFromStringConverter : TypeConverter
+    {
+        public override bool  CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof (string);
+        }
+
+        public override object  ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            return new Regex((string) value);
+        }
     }
 
     public class SimpleConfiguration
@@ -37,6 +64,9 @@ namespace Tests.SimpleConfigSections
 
         public virtual SimpleConfiguration Child { get; set; }
 
+        [RegexpDefault( "123abc456")]
+        public virtual Regex Matcher { get; set; }
+
         public string NameAndCount
         {
             get { return Name + Count; }
@@ -45,6 +75,14 @@ namespace Tests.SimpleConfigSections
         public virtual string NameAndCountVirtual
         {
             get { return NameAndCount; }
+        }
+    }
+
+    public class RegexpDefaultAttribute : DefaultAttribute
+    {
+        public RegexpDefaultAttribute(string patter)
+        {
+            DefaultValue = new Regex(patter);
         }
     }
 
