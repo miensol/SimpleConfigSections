@@ -64,7 +64,6 @@ namespace Tests.SimpleConfigSections
 
         public virtual SimpleConfiguration Child { get; set; }
 
-        [RegexpDefault( "123abc456")]
         public virtual Regex Matcher { get; set; }
 
         public string NameAndCount
@@ -75,14 +74,6 @@ namespace Tests.SimpleConfigSections
         public virtual string NameAndCountVirtual
         {
             get { return NameAndCount; }
-        }
-    }
-
-    public class RegexpDefaultAttribute : DefaultAttribute
-    {
-        public RegexpDefaultAttribute(string patter)
-        {
-            DefaultValue = new Regex(patter);
         }
     }
 

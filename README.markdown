@@ -33,6 +33,21 @@ Accessing configuration:
 	
 	ISimpleSection config = Configuration.Get<ISimpleSection>();
 	
+You can also use classes for defining configuration section:
+
+	public class Question 
+	{
+		public virtual string Value {get;set;}
+		public virtual string Answer {get;set;}
+		
+		public string AnswerAndValue 
+		{
+			get { return Answer + Value; }
+		}
+	}
+
+Note that properties that are to be read from configuration file must be virtual.
+	
 Classic way of defining ConfigurationSection
 ---------------------
 	public class ClassicSection : ConfigurationSection
