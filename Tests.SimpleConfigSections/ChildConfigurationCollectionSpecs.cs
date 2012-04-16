@@ -80,6 +80,9 @@ namespace Tests.SimpleConfigSections
         private It should_have_proper_number_of_child_elements =
             () => section.Children.ShouldHaveCount(2);
 
+        private It should_create_empty_collection_for_not_specified_elements =
+            () => section.EmptyButNotNull.ShouldNotBeNull();
+
         private It should_order_child_elements_as_they_appear_in_the_configuration_file =
             () =>
                 {
@@ -101,7 +104,8 @@ namespace Tests.SimpleConfigSections
     public interface IContainingCollectionConfigSection
     {
         IEnumerable<IDeclareAppConfiguration> Children { get; set; }
-        IEnumerable<IChangedNamesConfiguration> CustomChildren { get; set; } 
+        IEnumerable<IChangedNamesConfiguration> CustomChildren { get; set; }
+        IEnumerable<IDeclareAppConfiguration> EmptyButNotNull { get; set; }
     }
 
     public interface IChangedNamesConfiguration : IDeclareAppConfiguration
