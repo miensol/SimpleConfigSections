@@ -59,7 +59,14 @@ namespace SimpleConfigSections
                 }                
             }else
             {
-                result = _configurationPropertyFactory.Simple(pi);    
+                if(propertyType.IsClass && false == TypeDescriptor.GetConverter(propertyType).CanConvertFrom(typeof(string)))
+                {
+                    result = _configurationPropertyFactory.Class(pi);
+                }
+                else
+                {
+                    result = _configurationPropertyFactory.Simple(pi);        
+                }
             }
 
             _hiddenPropertyBagModifier.AddConfigurationProperty(result, _ownerType);

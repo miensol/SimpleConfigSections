@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Castle.DynamicProxy;
 using SimpleConfigSections.BasicExtensions;
+using Castle.Core.Internal;
 
 namespace SimpleConfigSections
 {
@@ -17,14 +19,27 @@ namespace SimpleConfigSections
 
         public void Intercept(IInvocation invocation)
         {
-            object obj = _configValue.Value(invocation.Method.PropertyName());
-            invocation.ReturnValue = obj;
+            if(invocation.Method.DeclaringType.IsInterface ||
+                invocation.Method.HasAttribute<CompilerGeneratedAttribute>()
+                )
+            {
+                object obj = _configValue.Value(invocation.Method.PropertyName());
+                invocation.ReturnValue = obj;
+            } else
+            {
+                invocation.Proceed();
+            }
         }
 
 
-        public object ClientValue(Type interfaceType)
+        public object ClientValue(Type definingType)
         {
-            return ProxyGenerator.CreateInterfaceProxyWithoutTarget(interfaceType, this);
+            if(definingType.IsInterface)
+            {
+                return ProxyGenerator.CreateInterfaceProxyWithoutTarget(definingType, this);    
+            }
+            return ProxyGenerator.CreateClassProxy(definingType, this);
+
         }
     }
 

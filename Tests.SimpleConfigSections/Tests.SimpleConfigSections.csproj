@@ -51,6 +51,7 @@
     <Compile Include="ChildConfigurationCollectionSpecs.cs" />
     <Compile Include="ChildConfigurationSectionSpecs.cs" />
     <Compile Include="ConfigurationsAttributeSpecs.cs" />
+    <Compile Include="ConfigurationSectionBasedOnClassSpecs.cs" />
     <Compile Include="DeclareConfigurationSectionSpecs.cs" />
     <Compile Include="NamingConventionSpecs.cs" />
     <Compile Include="NestedCollectionsWithRequiredAttributesSpecs.cs" />

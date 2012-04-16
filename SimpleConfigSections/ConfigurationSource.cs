@@ -20,7 +20,7 @@ namespace SimpleConfigSections
 
         public TInterface Get<TInterface>() where TInterface : class
         {
-            var sectionName = NamingConvention.Current.SectionNameByIntefaceType(typeof(TInterface));            
+            var sectionName = NamingConvention.Current.SectionNameByIntefaceOrClassType(typeof(TInterface));            
             var section = ConfigurationManager.GetSection(sectionName);
             if (section == null)
             {

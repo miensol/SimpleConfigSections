@@ -27,9 +27,28 @@ namespace SimpleConfigSections
             return SectionNameByIntefaceType(interfaceType);
         }
 
+        public string SectionNameByIntefaceOrClassType(Type classOrInterface)
+        {
+            if(classOrInterface.IsInterface)
+            {
+                return SectionNameByIntefaceType(classOrInterface);
+            }else
+            {
+                return SectionNameByClassType(classOrInterface);
+            }
+        }
+
+        public string SectionNameByClassType(Type classOrInterface)
+        {
+            return classOrInterface.Name;
+        }
+
         public virtual string SectionNameByIntefaceType(Type interfaceType)
         {
-            return interfaceType.Name.Substring(1);
+            return interfaceType.Name.TrimStart(new[]
+                                                    {
+                                                        'I'
+                                                    });
         }
 
         public virtual string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
@@ -81,6 +100,16 @@ namespace SimpleConfigSections
                 return
                     IfEmptyStringThenDefault(
                         conv => conv.ClearCollectionElementName(collectionElementType, propertyName));
+            }
+
+            public string SectionNameByIntefaceOrClassType(Type classOrInterface)
+            {
+                return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceOrClassType(classOrInterface));
+            }
+
+            public string SectionNameByClassType(Type classOrInterface)
+            {
+                return IfEmptyStringThenDefault(conv => conv.SectionNameByClassType(classOrInterface));
             }
 
 

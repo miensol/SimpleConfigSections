@@ -9,5 +9,7 @@ namespace SimpleConfigSections
         string AddToCollectionElementName(Type collectionElementType, string propertyName);
         string RemoveFromCollectionElementName(Type collectionElementType, string propertyName);
         string ClearCollectionElementName(Type collectionElementType, string propertyName);
+        string SectionNameByIntefaceOrClassType(Type classOrInterface);
+        string SectionNameByClassType(Type classOrInterface);
     }
 }

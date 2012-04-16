@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Reflection;
 using Castle.Core.Internal;
-using System.Linq;
 
 namespace SimpleConfigSections
 {
@@ -52,6 +51,11 @@ namespace SimpleConfigSections
         internal ConfigurationProperty Simple(PropertyInfo pi)
         {
             return NewConfigurationProperty(pi, pi.PropertyType);
+        }
+
+        public ConfigurationProperty Class(PropertyInfo pi)
+        {
+            return Interface(pi);
         }
 
         private ConfigurationProperty NewConfigurationProperty(PropertyInfo pi, Type elementType)
