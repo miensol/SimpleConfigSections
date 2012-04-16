@@ -45,6 +45,9 @@ You can also use classes for defining configuration section:
 			get { return Answer + Value; }
 		}
 	}
+	public class QuestionSection : ConfigurationSection<Question> {}
+	
+	Question questionConfiguration = Configuration.Get<Question>();
 
 Note that properties that are to be read from configuration file must be virtual.
 	
