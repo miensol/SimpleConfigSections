@@ -14,6 +14,11 @@ namespace SimpleConfigSections
             var propertyBagField = typeof (ConfigurationElement).GetField("s_propertyBags",
                                                                           BindingFlags.Static | BindingFlags.NonPublic);
             var value = (Hashtable)propertyBagField.GetValue(null);
+            if(value == null)
+            {
+                value = new Hashtable();
+                propertyBagField.SetValue(null, value);
+            }
             return value;
         }
 
