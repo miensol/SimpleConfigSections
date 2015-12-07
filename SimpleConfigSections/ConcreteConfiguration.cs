@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Castle.DynamicProxy;
 using SimpleConfigSections.BasicExtensions;
@@ -23,7 +24,11 @@ namespace SimpleConfigSections
                 invocation.Method.HasAttribute<CompilerGeneratedAttribute>()
                 )
             {
-                object obj = _configValue.Value(invocation.Method.PropertyName());
+                var propertyInfo = invocation.Method.GetPropertyInfo();
+                var name = propertyInfo == null ?
+                    invocation.Method.PropertyName()
+                    : NamingConvention.Current.AttributeName(propertyInfo);
+                object obj = _configValue.Value(name);
                 invocation.ReturnValue = obj;
             } else
             {

@@ -60,10 +60,11 @@ namespace SimpleConfigSections
 
         private ConfigurationProperty NewConfigurationProperty(PropertyInfo pi, Type elementType)
         {
+            var name = NamingConvention.Current.AttributeName(pi);
             var options = GetOptions(pi);
             var defaultValue = GetDefaultValue(pi);
             var validator = GetValidator(pi);            
-            var configurationProperty = new ConfigurationProperty(pi.Name, elementType, defaultValue, TypeDescriptor.GetConverter(elementType), validator, options);            
+            var configurationProperty = new ConfigurationProperty(name, elementType, defaultValue, TypeDescriptor.GetConverter(elementType), validator, options);            
             return configurationProperty;
         }
 
@@ -85,6 +86,15 @@ namespace SimpleConfigSections
             if (defaultAttribute != null)
             {
                 defaultValue = defaultAttribute.Default();
+            }
+            
+            if (defaultValue == null)
+            {
+                var attribute = member.GetAttribute<DefaultValueAttribute>();
+                if (attribute != null)
+                {
+                    defaultValue = attribute.Value;
+                }
             }
             return defaultValue;
         }

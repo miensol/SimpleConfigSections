@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using Machine.Specifications;
@@ -38,7 +39,7 @@ namespace Tests.SimpleConfigSections
         [Default(DefaultValue = "default attribute")]
         string DefaultStandardAttribute { get; set; }
 
-        [Default(DefaultValue = "should be overrided")]
+        [DefaultValue("should be overrided")]
         string SettedInConfig { get; set; }
         
     }

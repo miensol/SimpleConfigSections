@@ -13,6 +13,15 @@ namespace SimpleConfigSections.BasicExtensions
             return methodInfo.Name.Substring(4);
         }
 
+        public static PropertyInfo GetPropertyInfo(this MethodInfo method)
+        {
+            if (!method.IsSpecialName) return null;
+
+            var type = method.DeclaringType;
+
+            return type.GetProperty(method.Name.Substring(4), BindingFlags.Instance | BindingFlags.Public);
+        }
+
         internal static void Each<T>(this IEnumerable<T> sequence, Action<T> job)
         {
             foreach (var obj in sequence)
