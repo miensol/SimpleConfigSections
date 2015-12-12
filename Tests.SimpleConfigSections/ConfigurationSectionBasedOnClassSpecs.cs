@@ -88,7 +88,7 @@ namespace Tests.SimpleConfigSections
 	{
 		public override string AttributeName(PropertyInfo propertyInfo)
 		{
-			var attr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
+			var attr = propertyInfo.GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
 
 			if (attr != null && !string.IsNullOrEmpty(attr.Name))
 			{
