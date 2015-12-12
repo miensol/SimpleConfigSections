@@ -10,7 +10,7 @@ namespace Tests.SimpleConfigSections
     {
         private It should_throw_configuration_error_exception =
             () => Catch.Exception(() => Configuration.Get<ISectionWithRequiredAttribute>())
-                      .ShouldBeOfType(typeof (ConfigurationErrorsException));
+                      .ShouldBeOfExactType<ConfigurationErrorsException>();
     }
 
     public class when_reading_configuration_with_default_attribute_setting

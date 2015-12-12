@@ -44,22 +44,22 @@ namespace Tests.SimpleConfigSections
                 return "add";
             }
 
-            private static bool IsCustomProperty(Type collectionElementType, string propertyName)
-            {
-                return collectionElementType == typeof(IChangedNamesConfiguration)
-                       && propertyName == "CustomChildren";
-            }
+        private static bool IsCustomProperty(Type collectionElementType, string propertyName)
+        {
+            return collectionElementType == typeof(IChangedNamesConfiguration)
+                   && propertyName == "CustomChildren";
+        }
 
-            public override string RemoveFromCollectionElementName(Type collectionElementType, string propertyName)
+        public override string RemoveFromCollectionElementName(Type collectionElementType, string propertyName)
+        {
+            if (IsCustomProperty(collectionElementType, propertyName))
             {
-                if (IsCustomProperty(collectionElementType,propertyName))
-                {
-                    return "removeCustom";
-                }
-                return "remove";
+                return "removeCustom";
             }
+            return "remove";
+        }
 
-            public override string ClearCollectionElementName(Type collectionElementType, string propertyName)
+        public override string ClearCollectionElementName(Type collectionElementType, string propertyName)
             {
                 if (IsCustomProperty(collectionElementType, propertyName))
                 {
