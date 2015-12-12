@@ -1,6 +1,8 @@
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using Castle.DynamicProxy.Contributors;
 
 namespace SimpleConfigSections
 {
@@ -11,19 +13,24 @@ namespace SimpleConfigSections
             return type.GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic);
         }
 
-        private static Action<TOWner, TValue> MakeSetter<TOWner, TValue>(this FieldInfo field)
+        private delegate void ByRefStructAction<TTarget, TValue>(ref TTarget instance, TValue value);
+
+        private static Action<TTarget, TValue> MakeSetter<TTarget, TValue>(this FieldInfo field)
         {
-            var m = new DynamicMethod(
-                "Set" + field.Name, typeof(void), new Type[] { typeof(TOWner), typeof(TValue) }, typeof(TOWner));
-            var cg = m.GetILGenerator();
+            var instance = Expression.Parameter(typeof(TTarget).MakeByRefType(), "instance");
+            var value = Expression.Parameter(typeof(TValue), "value");
 
-            // arg0.<field> = arg1
-            cg.Emit(OpCodes.Ldarg_0);
-            cg.Emit(OpCodes.Ldarg_1);
-            cg.Emit(OpCodes.Stfld, field);
-            cg.Emit(OpCodes.Ret);
-
-            return (Action<TOWner, TValue>)m.CreateDelegate(typeof(Action<TOWner, TValue>));
+            var binaryExpression = Expression.Assign(
+                Expression.Field(instance, field),
+                Expression.Convert(value, field.FieldType)
+                );
+            var refStructAction = Expression.Lambda<ByRefStructAction<TTarget, TValue>>(binaryExpression, instance, value).Compile();
+            var byRefStructAction = refStructAction;
+            return (owner, value1) =>
+            {
+                TTarget target = owner; 
+                byRefStructAction.Invoke(ref target, value1); 
+            };
         }
 
         internal static Action<TOwner,TFieldType> MakeSetterForPrivateField<TOwner,TFieldType>(this Type ownerType, string fieldName)
