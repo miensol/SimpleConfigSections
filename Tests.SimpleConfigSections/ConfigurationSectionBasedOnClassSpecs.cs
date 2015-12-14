@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Machine.Specifications;
@@ -88,7 +89,7 @@ namespace Tests.SimpleConfigSections
 	{
 		public override string AttributeName(PropertyInfo propertyInfo)
 		{
-			var attr = propertyInfo.GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
+			var attr = propertyInfo.GetCustomAttributes(false).OfType<DisplayAttribute>().SingleOrDefault();
 
 			if (attr != null && !string.IsNullOrEmpty(attr.Name))
 			{
