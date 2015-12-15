@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConfigSections", "SimpleConfigSections\SimpleConfigSections.csproj", "{19AC67C4-812A-4473-A78B-B1760C32C324}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.SimpleConfigSections", "Tests.SimpleConfigSections\Tests.SimpleConfigSections.csproj", "{D809566F-8E89-41DB-BD45-68CD6A0BE9F2}"

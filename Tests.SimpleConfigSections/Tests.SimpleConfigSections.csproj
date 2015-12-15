@@ -10,10 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tests.SimpleConfigSections</RootNamespace>
     <AssemblyName>Tests.SimpleConfigSections</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,19 +65,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net40-client\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Machine.Specifications, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.0.9.0\lib\net45\Machine.Specifications.dll</HintPath>
+      <HintPath>..\packages\Machine.Specifications.0.9.0\lib\net40\Machine.Specifications.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Machine.Specifications.Clr4, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.0.9.0\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
+      <HintPath>..\packages\Machine.Specifications.0.9.0\lib\net40\Machine.Specifications.Clr4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Machine.Specifications.Should, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.Should.0.8.0\lib\net45\Machine.Specifications.Should.dll</HintPath>
+      <HintPath>..\packages\Machine.Specifications.Should.0.8.0\lib\net40\Machine.Specifications.Should.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
