@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using SimpleConfigSections.BasicExtensions;
 
 namespace SimpleConfigSections
@@ -71,6 +72,11 @@ namespace SimpleConfigSections
             return "clear";
         }
 
+        public virtual string AttributeName(PropertyInfo propertyInfo)
+        {
+            return propertyInfo.Name;
+        }
+
         private class CheckForInvalidNamesDecorator : INamingConvention
         {
             private readonly INamingConvention _realConvention;
@@ -123,6 +129,11 @@ namespace SimpleConfigSections
                 return
                     IfEmptyStringThenDefault(
                         conv => conv.SectionNameByIntefaceTypeAndPropertyName(propertyType, propertyName));
+            }
+
+            public string AttributeName(PropertyInfo propertyInfo)
+            {
+                return IfEmptyStringThenDefault(conv => conv.AttributeName(propertyInfo));
             }
 
             private string IfEmptyStringThenDefault(Func<INamingConvention, string> convention)

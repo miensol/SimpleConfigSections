@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Machine.Specifications;
 using SimpleConfigSections;
@@ -8,8 +11,12 @@ namespace Tests.SimpleConfigSections
 {
     public class when_reading_configuration_section_defined_as_class
     {
-        private Because b =
-            () => section = Configuration.Get<SimpleConfiguration>();
+		private Because b =
+			() =>
+			{
+				Configuration.WithNamingConvention(new GetNameFromDisplayConvention());
+				section = Configuration.Get<SimpleConfiguration>();
+			};
 
         private It should_return_not_empty_configuration =
             () => section.ShouldNotBeNull();
@@ -59,6 +66,7 @@ namespace Tests.SimpleConfigSections
 
     public class SimpleConfiguration
     {
+		[Display(Name = "name")]
         public virtual string Name { get; set; }
         public virtual int Count { get; set; }
 
@@ -76,6 +84,21 @@ namespace Tests.SimpleConfigSections
             get { return NameAndCount; }
         }
     }
+
+	public class GetNameFromDisplayConvention : NamingConvention
+	{
+		public override string AttributeName(PropertyInfo propertyInfo)
+		{
+			var attr = propertyInfo.GetCustomAttributes(false).OfType<DisplayAttribute>().SingleOrDefault();
+
+			if (attr != null && !string.IsNullOrEmpty(attr.Name))
+			{
+				return attr.Name;
+			}
+
+			return base.AttributeName(propertyInfo);
+		}
+	}
 
     public class SimpleConfigurationSection : ConfigurationSection<SimpleConfiguration>
     {
