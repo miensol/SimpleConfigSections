@@ -2,16 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>SimpleConfigSections</id>
-    <version>1.0.0.6</version>
+    <version>1.2.0</version>
     <authors>Piotr Mionskowski</authors>
     <owners>Piotr Mionskowski</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <projectUrl>http://github.com/miensol/SimpleConfigSections</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simplifies defining .net configuration sections. Removes the ceremony required to define config sections by providing
-a mechanism to define your config structure in terms of plain old interfaces.	
+a mechanism to define your config structure in terms of plain old interfaces.
 	</description>
-    <releaseNotes>fixed bug with nullreferenceexception</releaseNotes>
+    <releaseNotes>Provide a way to customize attribute names through a convention</releaseNotes>
     <copyright>Copyright 2011</copyright>
     <tags>configuration configurationSection</tags>
     <dependencies>
