@@ -1,0 +1,4 @@
+language: csharp
+solution: SimpleConfigSections.sln
+install:
+  - nuget restore SimpleConfigSections.sln
