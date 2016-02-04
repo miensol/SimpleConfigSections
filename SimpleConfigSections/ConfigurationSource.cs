@@ -10,9 +10,9 @@ namespace SimpleConfigSections
 
         public ConfigurationSource()
         {
-        }
+		}
 
-        private static object GetValueForKey(SectionIdentity sectionIdentity)
+		private static object GetValueForKey(SectionIdentity sectionIdentity)
         {
             var concreteConfiguration = new ConcreteConfiguration(sectionIdentity.Section);
             return concreteConfiguration.ClientValue(sectionIdentity.Type);
@@ -20,9 +20,10 @@ namespace SimpleConfigSections
 
         public TInterface Get<TInterface>() where TInterface : class
         {
-            var sectionName = NamingConvention.Current.SectionNameByIntefaceOrClassType(typeof(TInterface));            
+			var sectionName = NamingConvention.Current.SectionNameByIntefaceOrClassType(typeof(TInterface));            
             var section = ConfigurationManager.GetSection(sectionName);
-            if (section == null)
+
+			if (section == null)
             {
                 throw new ConfigurationErrorsException("There is no section named {0}".ToFormat(sectionName));
             }

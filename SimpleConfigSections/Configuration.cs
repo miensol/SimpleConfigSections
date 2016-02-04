@@ -11,7 +11,7 @@ namespace SimpleConfigSections
 
         public static void WithNamingConvention(NamingConvention namingConvention)
         {
-            if(namingConvention == null)
+			if (namingConvention == null)
             {
                 throw new ArgumentException("namingConvention must not be null","namingConvention");
             }

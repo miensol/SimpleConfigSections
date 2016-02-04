@@ -11,8 +11,10 @@ namespace SimpleConfigSections
 
         public ConfigurationSectionForInterface(Type interfaceType)
         {
-            _interfaceType = interfaceType;
+			_interfaceType = interfaceType;
             _clientValueResolver = new ClientValueResolver(this, InterfaceType);
+
+			Init();
         }
 
 
@@ -31,10 +33,17 @@ namespace SimpleConfigSections
             return _clientValueResolver.ClientValue(propertyName);
         }
 
-        protected override void Init()
-        {
-            new ConfigurationPropertyCollection(_interfaceType, GetType()).ToList();
-            base.Init();
-        }        
-    }
+		protected override void Reset(ConfigurationElement parentElement)
+		{
+			if (!ReflectionHelpers.RunningOnMono)
+				base.Reset(parentElement);
+		}
+
+		protected override void Init()
+		{
+			ConfigurationElementRegistrar.Register(this, _interfaceType);
+
+			base.Init();
+		}
+	}
 }

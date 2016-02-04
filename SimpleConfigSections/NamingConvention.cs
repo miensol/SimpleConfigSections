@@ -10,10 +10,13 @@ namespace SimpleConfigSections
 
         public static INamingConvention Current
         {
-            get { return _current; }
+            get {
+				return _current;
+
+			}
             set
             {
-                if(value == null)
+				if (value == null)
                 {
                     throw new ArgumentException("Convention must not be null","value");
                 }
@@ -30,7 +33,7 @@ namespace SimpleConfigSections
 
         public string SectionNameByIntefaceOrClassType(Type classOrInterface)
         {
-            if(classOrInterface.IsInterface)
+			if (classOrInterface.IsInterface)
             {
                 return SectionNameByIntefaceType(classOrInterface);
             }else
@@ -41,7 +44,7 @@ namespace SimpleConfigSections
 
         public string SectionNameByClassType(Type classOrInterface)
         {
-            return classOrInterface.Name;
+			return classOrInterface.Name;
         }
 
         public virtual string SectionNameByIntefaceType(Type interfaceType)
@@ -84,56 +87,56 @@ namespace SimpleConfigSections
 
             public CheckForInvalidNamesDecorator(INamingConvention realConvention)
             {
-                _realConvention = realConvention;
+				_realConvention = realConvention;
                 _defaultConvention = new NamingConvention();
             }
 
             public string AddToCollectionElementName(Type collectionElementType, string propertyName)
             {
-                return
-                    IfEmptyStringThenDefault(
+				return
+					IfEmptyStringThenDefault(
                         conv => conv.AddToCollectionElementName(collectionElementType, propertyName));
             }
             public string RemoveFromCollectionElementName(Type collectionElementType, string propertyName)
             {
-                return
-                    IfEmptyStringThenDefault(
+				return
+					IfEmptyStringThenDefault(
                         conv => conv.RemoveFromCollectionElementName(collectionElementType, propertyName));
             }
 
             public string ClearCollectionElementName(Type collectionElementType, string propertyName)
             {
-                return
-                    IfEmptyStringThenDefault(
+				return
+					IfEmptyStringThenDefault(
                         conv => conv.ClearCollectionElementName(collectionElementType, propertyName));
             }
 
             public string SectionNameByIntefaceOrClassType(Type classOrInterface)
             {
-                return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceOrClassType(classOrInterface));
+				return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceOrClassType(classOrInterface));
             }
 
             public string SectionNameByClassType(Type classOrInterface)
             {
-                return IfEmptyStringThenDefault(conv => conv.SectionNameByClassType(classOrInterface));
+				return IfEmptyStringThenDefault(conv => conv.SectionNameByClassType(classOrInterface));
             }
 
 
             public string SectionNameByIntefaceType(Type interfaceType)
             {
-                return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceType(interfaceType));
+				return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceType(interfaceType));
             }
 
             public string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
             {
-                return
-                    IfEmptyStringThenDefault(
+				return
+					IfEmptyStringThenDefault(
                         conv => conv.SectionNameByIntefaceTypeAndPropertyName(propertyType, propertyName));
             }
 
             public string AttributeName(PropertyInfo propertyInfo)
             {
-                return IfEmptyStringThenDefault(conv => conv.AttributeName(propertyInfo));
+				return IfEmptyStringThenDefault(conv => conv.AttributeName(propertyInfo));
             }
 
             private string IfEmptyStringThenDefault(Func<INamingConvention, string> convention)
@@ -141,9 +144,10 @@ namespace SimpleConfigSections
                 var propsedName = convention(_realConvention);
                 if(propsedName.IsNullOrEmptyOrWhiteSpace())
                 {
-                    return convention(_defaultConvention);
+					propsedName = convention(_defaultConvention);
                 }
-                return propsedName;
+
+				return propsedName;
             }
         }
     }

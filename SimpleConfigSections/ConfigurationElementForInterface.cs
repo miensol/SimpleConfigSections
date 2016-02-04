@@ -7,11 +7,10 @@ namespace SimpleConfigSections
 {
     internal class ConfigurationElementForInterface<T> : ConfigurationElementForInterface
     {
-        public ConfigurationElementForInterface():base(typeof(T))
+        public ConfigurationElementForInterface() : base(typeof(T))
         {
-            
-        }
-    }
+		}
+	}
 
     internal class ConfigurationElementForInterface : ConfigurationElement, IConfigValue, IBaseValueProvider
     {
@@ -20,7 +19,7 @@ namespace SimpleConfigSections
 
         protected ConfigurationElementForInterface(Type interfaceType)
         {
-            _interfaceType = interfaceType;
+			_interfaceType = interfaceType;
             _clientValueResolver = new ClientValueResolver(this, _interfaceType);
         }
 
@@ -34,10 +33,17 @@ namespace SimpleConfigSections
             get { return base[propertyName]; }
         }
 
-        protected override void Init()
-        {
-            new ConfigurationPropertyCollection(_interfaceType, GetType()).ToList();
-            base.Init();
-        }
-    }
+		protected override void Reset(ConfigurationElement parentElement)
+		{
+			if (!ReflectionHelpers.RunningOnMono)
+				base.Reset(parentElement);
+		}
+
+		protected override void Init()
+		{
+			ConfigurationElementRegistrar.Register(this, _interfaceType);
+
+			base.Init();
+		}
+	}
 }

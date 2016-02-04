@@ -15,12 +15,12 @@ namespace SimpleConfigSections
         public ConcreteConfiguration(IConfigValue configValue)
         {
             _configValue = configValue;
-        }
+		}
 
 
-        public void Intercept(IInvocation invocation)
+		public void Intercept(IInvocation invocation)
         {
-            if(invocation.Method.DeclaringType.IsInterface ||
+			if (invocation.Method.DeclaringType.IsInterface ||
                 invocation.Method.HasAttribute<CompilerGeneratedAttribute>()
                 )
             {
@@ -39,7 +39,7 @@ namespace SimpleConfigSections
 
         public object ClientValue(Type definingType)
         {
-            if(definingType.IsInterface)
+			if (definingType.IsInterface)
             {
                 return ProxyGenerator.CreateInterfaceProxyWithoutTarget(definingType, this);    
             }
@@ -53,11 +53,11 @@ namespace SimpleConfigSections
         public ConcreteConfiguration(ConfigurationSection<T> section)
             : base(section)
         {
-        }
+		}
 
-        public T ClientValue()
+		public T ClientValue()
         {
-            return (T)ClientValue(typeof(T));
+			return (T)ClientValue(typeof(T));
         }
     }
 }

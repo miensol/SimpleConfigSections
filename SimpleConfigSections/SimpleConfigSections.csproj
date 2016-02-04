@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimpleConfigSections</RootNamespace>
     <AssemblyName>SimpleConfigSections</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Nuget|AnyCPU'">
     <OutputPath>bin\Nuget\</OutputPath>
@@ -48,6 +50,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -64,14 +67,17 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationElementCollectionForInterface.cs" />
     <Compile Include="ConfigurationElementForInterface.cs" />
-    <Compile Include="ConfigurationElementHiddenPropertyBagModifier.cs" />
+    <Compile Include="ConfigurationElementRegistrar.cs" />
     <Compile Include="ConfigurationPropertyCollection.cs" />
     <Compile Include="ConfigurationPropertyFactory.cs" />
+    <Compile Include="ConfigurationPropertyFactory.DotNet.cs" />
+    <Compile Include="ConfigurationPropertyFactory.Mono.cs" />
     <Compile Include="ConfigurationSection.cs" />
     <Compile Include="ConfigurationSectionForInterface.cs" />
     <Compile Include="ConfigurationSource.cs" />
     <Compile Include="DefaultAttribute.cs" />
     <Compile Include="IBaseValueProvider.cs" />
+    <Compile Include="IConfigurationPropertyFactory.cs" />
     <Compile Include="IConfigValue.cs" />
     <Compile Include="INamingConvention.cs" />
     <Compile Include="NamingConvention.cs" />

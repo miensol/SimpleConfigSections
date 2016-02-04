@@ -5,6 +5,6 @@
         protected ConfigurationSection()
             : base(typeof (T))
         {
-        }
-    }
+		}
+	}
 }
