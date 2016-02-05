@@ -10,13 +10,13 @@ namespace SimpleConfigSections
 {
     internal class ConfigurationPropertyCollection : IEnumerable<ConfigurationProperty>
     {
-        private readonly Type _ownerType;
+        //private readonly Type _ownerType;
         private readonly IEnumerable<ConfigurationProperty> _properties;
         private readonly IConfigurationPropertyFactory _configurationPropertyFactory;
 
         public ConfigurationPropertyCollection(Type interfaceType, Type ownerType)
         {
-			_ownerType = ownerType;
+			//_ownerType = ownerType;
 			_configurationPropertyFactory = ConfigurationPropertyFactory.Create();
 			_properties = GetPublicProperties(interfaceType).Select(CreateConfigurationProperty);
         }

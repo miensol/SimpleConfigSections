@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Xml;
 using System.Linq;
 
 namespace SimpleConfigSections
@@ -44,6 +45,24 @@ namespace SimpleConfigSections
 			ConfigurationElementRegistrar.Register(this, _interfaceType);
 
 			base.Init();
+		}
+
+		protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
+		{
+			base.DeserializeElement(reader, serializeCollectionKey);
+
+			// XXX: Mono has a bug were it does not correctly
+			//		asserts IsRequired on section's attributes.
+			if (ReflectionHelpers.RunningOnMono)
+			{
+				var missingProperties = ElementInformation.Properties
+					.OfType<PropertyInformation>()
+					.Where(x => x.IsRequired && x.Value == null)
+					.Select(x => x.Name);
+
+				if (missingProperties.Any())
+					OnRequiredPropertyNotFound(missingProperties.First());
+			}
 		}
 	}
 }

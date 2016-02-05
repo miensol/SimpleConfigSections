@@ -20,6 +20,8 @@ namespace SimpleConfigSections
 
 		public void Intercept(IInvocation invocation)
         {
+			// Add break here if class is ISectionWithRequiredAttribute
+
 			if (invocation.Method.DeclaringType.IsInterface ||
                 invocation.Method.HasAttribute<CompilerGeneratedAttribute>()
                 )
