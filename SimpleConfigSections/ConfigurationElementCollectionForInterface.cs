@@ -11,7 +11,6 @@ namespace SimpleConfigSections
         private readonly Type _elementType;
         private readonly Type _listType;
         private readonly CacheCallback<int, IList> _list;
-		private readonly ConfigurationElementRegistrar _registrar = ConfigurationElementRegistrar.Instance;
 
 		protected ConfigurationElementCollectionForInterface(Type elementType)
         {
@@ -52,20 +51,6 @@ namespace SimpleConfigSections
         {
             return Guid.NewGuid();
         }
-
-		protected override void Reset(ConfigurationElement parentElement)
-		{
-			// XXX: Avoid infinite loop on mono.
-			if (!ReflectionHelpers.RunningOnMono)
-				base.Reset(parentElement);
-		}
-
-		protected override void Init()
-		{
-			_registrar.Register(this, _elementType);
-
-			base.Init();
-		}
 	}   
 
     internal class ConfigurationElementCollectionForInterface<T> : ConfigurationElementCollectionForInterface

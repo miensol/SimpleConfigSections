@@ -34,13 +34,6 @@ namespace SimpleConfigSections
             get { return base[propertyName]; }
         }
 
-		protected override void Reset(ConfigurationElement parentElement)
-		{
-			// XXX: Avoid infinite loop on mono.
-			if (!ReflectionHelpers.RunningOnMono)
-				base.Reset(parentElement);
-		}
-
 		protected override void Init()
 		{
 			_registrar.Register(this, _interfaceType);
