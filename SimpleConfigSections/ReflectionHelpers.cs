@@ -44,7 +44,7 @@ namespace SimpleConfigSections
         internal static Action<TOwner, TFieldType> MakeSetterForPrivateProperty<TOwner, TFieldType>(string propertyName)
         {
             var property = GetPrivateProperty<TOwner>(propertyName);
-            return property != null ? (obj, value) => property.SetValue(obj, value) : (Action<TOwner, TFieldType>)null;
+            return property != null ? (obj, value) => property.SetValue(obj, value, null) : (Action<TOwner, TFieldType>)null;
         }
     }
 }
