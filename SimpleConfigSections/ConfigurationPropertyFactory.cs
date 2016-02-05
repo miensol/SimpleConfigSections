@@ -10,10 +10,10 @@ using System.Linq;
 namespace SimpleConfigSections
 {
     internal abstract partial class ConfigurationPropertyFactory
-	{
+    {
         public ConfigurationPropertyFactory()
         {
-		}
+        }
 
         public ConfigurationProperty Interface(PropertyInfo pi)
         {
@@ -34,7 +34,7 @@ namespace SimpleConfigSections
 
         protected ConfigurationProperty NewConfigurationProperty(PropertyInfo pi, Type elementType)
         {
-			var name = NamingConvention.Current.AttributeName(pi);
+            var name = NamingConvention.Current.AttributeName(pi);
             var options = GetOptions(pi);
             var defaultValue = GetDefaultValue(pi);
             var validator = GetValidator(pi);            
@@ -50,7 +50,7 @@ namespace SimpleConfigSections
             {
                 options = ConfigurationPropertyOptions.IsRequired;
             }
-			return options;
+            return options;
         }
 
         private static object GetDefaultValue(PropertyInfo member)
@@ -84,9 +84,9 @@ namespace SimpleConfigSections
             return validator;
         }
 
-		public static IConfigurationPropertyFactory Create()
-		{
-			return ReflectionHelpers.RunningOnMono ? new MonoFactory() as IConfigurationPropertyFactory : new DotNetFactory();
-		}
+        public static IConfigurationPropertyFactory Create()
+        {
+            return ReflectionHelpers.RunningOnMono ? new MonoFactory() as IConfigurationPropertyFactory : new DotNetFactory();
+        }
     }
 }

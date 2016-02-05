@@ -16,9 +16,9 @@ namespace SimpleConfigSections
 
         public ConfigurationPropertyCollection(Type interfaceType, Type ownerType)
         {
-			//_ownerType = ownerType;
-			_configurationPropertyFactory = ConfigurationPropertyFactory.Create();
-			_properties = GetPublicProperties(interfaceType).Select(CreateConfigurationProperty);
+            //_ownerType = ownerType;
+            _configurationPropertyFactory = ConfigurationPropertyFactory.Create();
+            _properties = GetPublicProperties(interfaceType).Select(CreateConfigurationProperty);
         }
 
         public IEnumerator<ConfigurationProperty> GetEnumerator()

@@ -24,7 +24,7 @@ namespace SimpleConfigSections
 
         public override void Validate(object value)
         {
-			var validationErrors = (from validation in _validationAttributes
+            var validationErrors = (from validation in _validationAttributes
                                     where validation.IsValid(value) == false
                                     select validation.FormatErrorMessage(_propertyName)).ToList();
 

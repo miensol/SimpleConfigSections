@@ -5,45 +5,45 @@ using System.Linq;
 
 namespace SimpleConfigSections
 {
-	internal abstract partial class ConfigurationElementRegistrar
+    internal abstract partial class ConfigurationElementRegistrar
     {
-		private static readonly IDictionary<Type, int> _alreadyRegistered = new Dictionary<Type, int>();
-		private static ConfigurationElementRegistrar _instance = CreateInstance();
+        private static readonly IDictionary<Type, int> _alreadyRegistered = new Dictionary<Type, int>();
+        private static ConfigurationElementRegistrar _instance = CreateInstance();
 
-		public static ConfigurationElementRegistrar Instance { get { return _instance; } }
+        public static ConfigurationElementRegistrar Instance { get { return _instance; } }
 
-		private static ConfigurationElementRegistrar CreateInstance()
-		{
-			return ReflectionHelpers.RunningOnMono ? new MonoRegistrar() as ConfigurationElementRegistrar : new DotNetRegistrar();
-		}
+        private static ConfigurationElementRegistrar CreateInstance()
+        {
+            return ReflectionHelpers.RunningOnMono ? new MonoRegistrar() as ConfigurationElementRegistrar : new DotNetRegistrar();
+        }
 
-		private static bool ClassAlreadyRegistered(Type type)
-		{
-			int num = 0;
+        private static bool ClassAlreadyRegistered(Type type)
+        {
+            int num = 0;
 
-			lock (_alreadyRegistered)
-			{
-				if (_alreadyRegistered.ContainsKey(type))
-				{
-					num = _alreadyRegistered[type];
-				}
+            lock (_alreadyRegistered)
+            {
+                if (_alreadyRegistered.ContainsKey(type))
+                {
+                    num = _alreadyRegistered[type];
+                }
 
-				_alreadyRegistered[type] = num++;
-			}
+                _alreadyRegistered[type] = num++;
+            }
 
-			return num > 1;
- 		}
+            return num > 1;
+         }
 
-		protected abstract void Register(ConfigurationElement element, params ConfigurationProperty[] configurationProperties);
+        protected abstract void Register(ConfigurationElement element, params ConfigurationProperty[] configurationProperties);
 
-		public void Register(ConfigurationElement element, Type @interface)
-		{
-			var type = element.GetType();
+        public void Register(ConfigurationElement element, Type @interface)
+        {
+            var type = element.GetType();
 
-			if (ClassAlreadyRegistered(type))
-				return;
+            if (ClassAlreadyRegistered(type))
+                return;
 
-			Register(element, new ConfigurationPropertyCollection(@interface, type).ToArray());
-		}
-	}
+            Register(element, new ConfigurationPropertyCollection(@interface, type).ToArray());
+        }
+    }
 }

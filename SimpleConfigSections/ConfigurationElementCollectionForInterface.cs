@@ -12,9 +12,9 @@ namespace SimpleConfigSections
         private readonly Type _listType;
         private readonly CacheCallback<int, IList> _list;
 
-		protected ConfigurationElementCollectionForInterface(Type elementType)
+        protected ConfigurationElementCollectionForInterface(Type elementType)
         {
-			_elementType = elementType;
+            _elementType = elementType;
             
             _listType = typeof (List<>).MakeGenericType(new[]
                                                             {
@@ -51,7 +51,7 @@ namespace SimpleConfigSections
         {
             return Guid.NewGuid();
         }
-	}   
+    }   
 
     internal class ConfigurationElementCollectionForInterface<T> : ConfigurationElementCollectionForInterface
     {
