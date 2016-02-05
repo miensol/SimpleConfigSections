@@ -16,8 +16,9 @@ namespace SimpleConfigSections
     {
         private readonly Type _interfaceType;
         private readonly ClientValueResolver _clientValueResolver;
+		private readonly ConfigurationElementRegistrar _registrar = ConfigurationElementRegistrar.Instance;
 
-        protected ConfigurationElementForInterface(Type interfaceType)
+		protected ConfigurationElementForInterface(Type interfaceType)
         {
 			_interfaceType = interfaceType;
             _clientValueResolver = new ClientValueResolver(this, _interfaceType);
@@ -35,13 +36,14 @@ namespace SimpleConfigSections
 
 		protected override void Reset(ConfigurationElement parentElement)
 		{
+			// XXX: Avoid infinite loop on mono.
 			if (!ReflectionHelpers.RunningOnMono)
 				base.Reset(parentElement);
 		}
 
 		protected override void Init()
 		{
-			ConfigurationElementRegistrar.Register(this, _interfaceType);
+			_registrar.Register(this, _interfaceType);
 
 			base.Init();
 		}

@@ -32,21 +32,6 @@ namespace SimpleConfigSections
             return Interface(pi);
         }
 
-#if false
-		public ConfigurationProperty Section(Type type)
-		{
-			if (!typeof(ConfigurationSection).IsAssignableFrom(type))
-				throw new ArgumentOutOfRangeException("type is not a ConfigurationSection");
-
-			var name = NamingConvention.Current.SectionNameByClassType(type);
-			var options = GetOptions(type);
-			var validator = GetValidator(type);
-			Console.Error.WriteLine("  +++++>>>> Validator: {0} -- {1}",  type, validator);
-			var configurationProperty = new ConfigurationProperty(name, type, null, null, validator, options);
-			return configurationProperty;
-		}
-#endif
-
         protected ConfigurationProperty NewConfigurationProperty(PropertyInfo pi, Type elementType)
         {
 			var name = NamingConvention.Current.AttributeName(pi);

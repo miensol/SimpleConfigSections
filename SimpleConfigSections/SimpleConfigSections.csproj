@@ -67,6 +67,8 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationElementCollectionForInterface.cs" />
     <Compile Include="ConfigurationElementForInterface.cs" />
+    <Compile Include="ConfigurationElementRegistrar.Mono.cs" />
+    <Compile Include="ConfigurationElementRegistrar.DotNet.cs" />
     <Compile Include="ConfigurationElementRegistrar.cs" />
     <Compile Include="ConfigurationPropertyCollection.cs" />
     <Compile Include="ConfigurationPropertyFactory.cs" />
