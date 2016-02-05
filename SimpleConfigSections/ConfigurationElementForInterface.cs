@@ -40,5 +40,12 @@ namespace SimpleConfigSections
 
 			base.Init();
 		}
+
+		protected override void Reset(ConfigurationElement parentElement)
+		{
+			// XXX: Avoid infinite loop on mono.
+			if (!ReflectionHelpers.RunningOnMono)
+				base.Reset(parentElement);
+		}
 	}
 }
