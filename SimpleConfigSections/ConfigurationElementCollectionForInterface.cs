@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 
 namespace SimpleConfigSections
 {
@@ -10,7 +11,7 @@ namespace SimpleConfigSections
         private readonly Type _elementType;
         private readonly Type _listType;
         private readonly CacheCallback<int, IList> _list;
-        
+
         protected ConfigurationElementCollectionForInterface(Type elementType)
         {
             _elementType = elementType;

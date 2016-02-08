@@ -9,7 +9,6 @@ namespace SimpleConfigSections
     {
         public ConfigurationElementForInterface():base(typeof(T))
         {
-            
         }
     }
 
@@ -17,6 +16,7 @@ namespace SimpleConfigSections
     {
         private readonly Type _interfaceType;
         private readonly ClientValueResolver _clientValueResolver;
+        private readonly ConfigurationElementRegistrar _registrar = ConfigurationElementRegistrar.Instance;
 
         protected ConfigurationElementForInterface(Type interfaceType)
         {
@@ -36,8 +36,16 @@ namespace SimpleConfigSections
 
         protected override void Init()
         {
-            new ConfigurationPropertyCollection(_interfaceType, GetType()).ToList();
+            _registrar.Register(this, _interfaceType);
+
             base.Init();
         }
-    }
+
+        protected override void Reset(ConfigurationElement parentElement)
+        {
+            // XXX: Avoid infinite loop on mono.
+            if (!ReflectionHelpers.RunningOnMono)
+                base.Reset(parentElement);
+            }
+        }
 }

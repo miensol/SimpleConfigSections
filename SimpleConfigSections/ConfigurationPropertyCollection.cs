@@ -10,22 +10,16 @@ namespace SimpleConfigSections
 {
     internal class ConfigurationPropertyCollection : IEnumerable<ConfigurationProperty>
     {
-        private readonly Type _ownerType;
+        //private readonly Type _ownerType;
         private readonly IEnumerable<ConfigurationProperty> _properties;
-        private readonly ConfigurationPropertyFactory _configurationPropertyFactory;
-        private readonly ConfigurationElementHiddenPropertyBagModifier _hiddenPropertyBagModifier;
+        private readonly IConfigurationPropertyFactory _configurationPropertyFactory;
 
         public ConfigurationPropertyCollection(Type interfaceType, Type ownerType)
         {
-            _ownerType = ownerType;
-
-            var propertyInfos = GetPublicProperties(interfaceType);                        
-            _properties = propertyInfos.Select(CreateConfigurationProperty);
-            _configurationPropertyFactory = new ConfigurationPropertyFactory();
-            _hiddenPropertyBagModifier = new ConfigurationElementHiddenPropertyBagModifier();
-
+            //_ownerType = ownerType;
+            _configurationPropertyFactory = ConfigurationPropertyFactory.Create();
+            _properties = GetPublicProperties(interfaceType).Select(CreateConfigurationProperty);
         }
-
 
         public IEnumerator<ConfigurationProperty> GetEnumerator()
         {
@@ -36,7 +30,6 @@ namespace SimpleConfigSections
         {
             return GetEnumerator();
         }
-
 
         private ConfigurationProperty CreateConfigurationProperty(PropertyInfo pi)
         {
@@ -69,11 +62,10 @@ namespace SimpleConfigSections
                 }
             }
 
-            _hiddenPropertyBagModifier.AddConfigurationProperty(result, _ownerType);
             return result;
         }
 
-        public static PropertyInfo[] GetPublicProperties(Type type)
+        private static PropertyInfo[] GetPublicProperties(Type type)
         {
             if (type.IsInterface)
             {

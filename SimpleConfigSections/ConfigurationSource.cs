@@ -22,6 +22,7 @@ namespace SimpleConfigSections
         {
             var sectionName = NamingConvention.Current.SectionNameByIntefaceOrClassType(typeof(TInterface));            
             var section = ConfigurationManager.GetSection(sectionName);
+
             if (section == null)
             {
                 throw new ConfigurationErrorsException("There is no section named {0}".ToFormat(sectionName));

@@ -2,3 +2,6 @@ language: csharp
 solution: SimpleConfigSections.sln
 install:
   - nuget restore SimpleConfigSections.sln
+script:
+  - xbuild /p:Configuration=Release SimpleConfigSections.sln
+  - mono packages/Machine.Specifications.0.5.0.0/tools/mspec.exe Tests.SimpleConfigSections/bin/Release/Tests.SimpleConfigSections.dll

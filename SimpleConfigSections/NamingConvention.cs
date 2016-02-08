@@ -10,10 +10,13 @@ namespace SimpleConfigSections
 
         public static INamingConvention Current
         {
-            get { return _current; }
+            get {
+                return _current;
+
+            }
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     throw new ArgumentException("Convention must not be null","value");
                 }
@@ -30,7 +33,7 @@ namespace SimpleConfigSections
 
         public string SectionNameByIntefaceOrClassType(Type classOrInterface)
         {
-            if(classOrInterface.IsInterface)
+            if (classOrInterface.IsInterface)
             {
                 return SectionNameByIntefaceType(classOrInterface);
             }else
@@ -141,8 +144,9 @@ namespace SimpleConfigSections
                 var propsedName = convention(_realConvention);
                 if(propsedName.IsNullOrEmptyOrWhiteSpace())
                 {
-                    return convention(_defaultConvention);
+                    propsedName = convention(_defaultConvention);
                 }
+
                 return propsedName;
             }
         }

@@ -6,29 +6,45 @@ namespace SimpleConfigSections
 {
     internal static class ReflectionHelpers
     {
-        private static FieldInfo GetPrivateField(this Type type, string fieldName)
+        private static readonly BindingFlags _privateFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic;
+
+        public static bool RunningOnMono
         {
-            return type.GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic);
+            get
+            {
+                Type t = Type.GetType("Mono.Runtime");
+                if (t != null)
+                    return true;
+
+                return false;
+            }
         }
 
-        private static Action<TOWner, TValue> MakeSetter<TOWner, TValue>(this FieldInfo field)
+        internal static FieldInfo GetPrivateField<TType>(string fieldName)
         {
-            var m = new DynamicMethod(
-                "Set" + field.Name, typeof(void), new Type[] { typeof(TOWner), typeof(TValue) }, typeof(TOWner));
-            var cg = m.GetILGenerator();
-
-            // arg0.<field> = arg1
-            cg.Emit(OpCodes.Ldarg_0);
-            cg.Emit(OpCodes.Ldarg_1);
-            cg.Emit(OpCodes.Stfld, field);
-            cg.Emit(OpCodes.Ret);
-
-            return (Action<TOWner, TValue>)m.CreateDelegate(typeof(Action<TOWner, TValue>));
+            return GetPrivateField(typeof(TType), fieldName);
         }
 
-        internal static Action<TOwner,TFieldType> MakeSetterForPrivateField<TOwner,TFieldType>(this Type ownerType, string fieldName)
+        internal static FieldInfo GetPrivateField(Type type, string fieldName)
         {
-            return ownerType.GetPrivateField(fieldName).MakeSetter<TOwner, TFieldType>();
+            return type.GetField(fieldName, _privateFlags);
+        }
+
+        internal static PropertyInfo GetPrivateProperty<TType>(string propertyName)
+        {
+            return typeof(TType).GetProperty(propertyName, _privateFlags);
+        }
+
+        internal static Action<TOwner, TFieldType> MakeSetterForPrivateField<TOwner, TFieldType>(string fieldName)
+        {
+            var field = GetPrivateField<TOwner>(fieldName);
+            return field != null ? (obj, value) => field.SetValue(obj, value) : (Action<TOwner, TFieldType>)null;
+        }
+
+        internal static Action<TOwner, TFieldType> MakeSetterForPrivateProperty<TOwner, TFieldType>(string propertyName)
+        {
+            var property = GetPrivateProperty<TOwner>(propertyName);
+            return property != null ? (obj, value) => property.SetValue(obj, value, null) : (Action<TOwner, TFieldType>)null;
         }
     }
 }
