@@ -25,11 +25,7 @@ namespace SimpleConfigSections
                 )
             {
                 var propertyInfo = invocation.Method.GetPropertyInfo();
-                var name = propertyInfo == null ?
-                    invocation.Method.PropertyName()
-                    : NamingConvention.Current.AttributeName(propertyInfo);
-                object obj = _configValue.Value(name);
-                invocation.ReturnValue = obj;
+                invocation.ReturnValue = _configValue.Value(propertyInfo);
             } else
             {
                 invocation.Proceed();
@@ -42,6 +38,10 @@ namespace SimpleConfigSections
             if(definingType.IsInterface)
             {
                 return ProxyGenerator.CreateInterfaceProxyWithoutTarget(definingType, this);    
+            }
+            if(definingType.IsArray)
+            {
+                return Array.CreateInstance(definingType.GetElementType(), 0);
             }
             return ProxyGenerator.CreateClassProxy(definingType, this);
 

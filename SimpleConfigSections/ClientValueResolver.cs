@@ -1,33 +1,44 @@
 ﻿using System;
+using System.Reflection;
+
+using SimpleConfigSections.BasicExtensions;
 
 namespace SimpleConfigSections
 {
     internal class ClientValueResolver
     {
-        private readonly CacheCallback<string,object> _cachedValues;
+        private readonly CacheCallback<PropertyInfo,object> _cachedValues;
         private readonly IBaseValueProvider _source;
         private readonly Type _sourceInterfaceType;
 
         public ClientValueResolver(IBaseValueProvider source, Type sourceInterfaceType)
         {
-            _cachedValues = new CacheCallback<string, object>(ClientValueCreate);
+            _cachedValues = new CacheCallback<PropertyInfo, object>(ClientValueCreate);
             _source = source;
             _sourceInterfaceType = sourceInterfaceType;
         }
 
-        public object ClientValue(string propertyName)
+        public object ClientValue(PropertyInfo property)
         {
-            return _cachedValues.Get(propertyName);
+            return _cachedValues.Get(property);
         }
 
-        private object ClientValueCreate(string propertyName)
+        private object ClientValueCreate(PropertyInfo property)
         {
-            var obj = _source[propertyName];
+            var obj = _source[property];
             if (obj is IConfigValue)
             {
                 return
                     new ConcreteConfiguration((IConfigValue)obj).ClientValue(
-                        _sourceInterfaceType.GetProperty(propertyName).PropertyType);
+                        _sourceInterfaceType.GetProperty(property.Name).PropertyType);
+            }
+            else if (obj == null && property.PropertyType.IsValueType)
+            {
+                return Activator.CreateInstance(property.PropertyType);
+            }
+            else if (obj == null && property.IsGenericIEnumerable())
+            {
+                return Array.CreateInstance(property.PropertyType.GetGenericArguments()[0], 0);
             }
             return obj;
         }

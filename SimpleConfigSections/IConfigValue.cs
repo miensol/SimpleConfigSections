@@ -1,7 +1,9 @@
-﻿namespace SimpleConfigSections
+﻿using System.Reflection;
+
+namespace SimpleConfigSections
 {
     internal interface IConfigValue
     {
-        object Value(string propertyName);
+        object Value(PropertyInfo property);
     }
 }

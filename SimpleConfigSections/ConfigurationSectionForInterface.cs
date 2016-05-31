@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Xml;
 using System.Linq;
+using System.Reflection;
 
 namespace SimpleConfigSections
 {
@@ -21,9 +22,9 @@ namespace SimpleConfigSections
         }
 
 
-        public new object this[string propertyName]
+        public object this[PropertyInfo property]
         {
-            get { return base[propertyName]; }
+            get { return base[NamingConvention.Current.AttributeName(property)]; }
         }
 
         public Type InterfaceType
@@ -31,9 +32,9 @@ namespace SimpleConfigSections
             get { return _interfaceType; }
         }
 
-        public object Value(string propertyName)
+        public object Value(PropertyInfo property)
         {
-            return _clientValueResolver.ClientValue(propertyName);
+            return _clientValueResolver.ClientValue(property);
         }
 
         protected override void Init()

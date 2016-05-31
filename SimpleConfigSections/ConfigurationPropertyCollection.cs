@@ -6,6 +6,8 @@ using System.Configuration;
 using System.Linq;
 using System.Reflection;
 
+using SimpleConfigSections.BasicExtensions;
+
 namespace SimpleConfigSections
 {
     internal class ConfigurationPropertyCollection : IEnumerable<ConfigurationProperty>
@@ -37,15 +39,12 @@ namespace SimpleConfigSections
             ConfigurationProperty result = null;
             if (propertyType.IsInterface)
             {
-                if (propertyType.IsGenericType)
+                if (propertyType.IsGenericIEnumerable())
                 {
-                    var genericTypeDefinition = propertyType.GetGenericTypeDefinition();
-
-                    if (genericTypeDefinition == typeof (IEnumerable<>))
-                    {
-                        var elementType = propertyType.GetGenericArguments()[0];
-                        result = _configurationPropertyFactory.Collection(pi, elementType);
-                    }
+                    var elementType = propertyType.GetGenericArguments()[0];
+                    result = elementType.IsEnum ?
+                        _configurationPropertyFactory.Simple(pi)
+                        : _configurationPropertyFactory.Collection(pi, elementType);
                 }else
                 {
                     result = _configurationPropertyFactory.Interface(pi);
