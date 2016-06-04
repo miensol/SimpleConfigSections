@@ -25,6 +25,12 @@ namespace Tests.SimpleConfigSections
     {
         [StringLength(3)]
         string ToLong { get; set; }
+
+        [Range(1, 256), Default(DefaultValue = (ushort)1)]
+        ushort NotDeclared { get; set; }
+
+        [Range(1, 256)]
+        ushort? NullableNotDeclared { get; set; }
     }
 
     public class SectionWithValidators : ConfigurationSection<ISectionWithValidators>

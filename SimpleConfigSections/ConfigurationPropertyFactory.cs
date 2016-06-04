@@ -37,8 +37,9 @@ namespace SimpleConfigSections
             var name = NamingConvention.Current.AttributeName(pi);
             var options = GetOptions(pi);
             var defaultValue = GetDefaultValue(pi);
-            var validator = GetValidator(pi);            
-            var configurationProperty = new ConfigurationProperty(name, elementType, defaultValue, TypeDescriptor.GetConverter(elementType), validator, options);            
+            var validator = GetValidator(pi);
+            var converter = TypeDescriptor.GetProperties(pi.DeclaringType)[pi.Name].Converter ?? TypeDescriptor.GetConverter(elementType);
+            var configurationProperty = new ConfigurationProperty(name, elementType, defaultValue, converter, validator, options);
             return configurationProperty;
         }
 
@@ -70,6 +71,7 @@ namespace SimpleConfigSections
                     defaultValue = attribute.Value;
                 }
             }
+
             return defaultValue;
         }
 

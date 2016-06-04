@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Configuration;
-using SimpleConfigSections.BasicExtensions;
 using System.Linq;
+using System.Reflection;
+using SimpleConfigSections.BasicExtensions;
 
 namespace SimpleConfigSections
 {
@@ -24,14 +25,14 @@ namespace SimpleConfigSections
             _clientValueResolver = new ClientValueResolver(this, _interfaceType);
         }
 
-        public object Value(string propertyName)
+        public object Value(PropertyInfo property)
         {
-            return _clientValueResolver.ClientValue(propertyName);
+            return _clientValueResolver.ClientValue(property);
         }
 
-        public new object this[string propertyName]
+        public object this[PropertyInfo property]
         {
-            get { return base[propertyName]; }
+            get { return base[NamingConvention.Current.AttributeName(property)]; }
         }
 
         protected override void Init()

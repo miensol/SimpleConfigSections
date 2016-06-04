@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -45,6 +47,26 @@ namespace SimpleConfigSections
         {
             var property = GetPrivateProperty<TOwner>(propertyName);
             return property != null ? (obj, value) => property.SetValue(obj, value, null) : (Action<TOwner, TFieldType>)null;
+        }
+
+        public static bool IsGenericIEnumerable(this Type ptype, params Type[] arguments)
+        {
+            if (!ptype.IsGenericType) return false;
+
+            var genericTypeDefinition = ptype.GetGenericTypeDefinition();
+            if (genericTypeDefinition != typeof(IEnumerable<>)) return false;
+
+            if (arguments != null && arguments.Length > 0)
+            {
+                return Enumerable.SequenceEqual(ptype.GetGenericArguments(), arguments);
+            }
+
+            return true;
+        }
+
+        public static bool IsGenericIEnumerable(this PropertyInfo property, params Type[] arguments)
+        {
+            return property.PropertyType.IsGenericIEnumerable();
         }
     }
 }
