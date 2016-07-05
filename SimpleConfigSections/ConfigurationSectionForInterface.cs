@@ -11,6 +11,7 @@ namespace SimpleConfigSections
         private readonly ClientValueResolver _clientValueResolver;
         private readonly Type _interfaceType;
         private readonly ConfigurationElementRegistrar _registrar = ConfigurationElementRegistrar.Instance;
+        private bool _sectionDeserialized = false;
 
         public ConfigurationSectionForInterface(Type interfaceType)
         {
@@ -44,8 +45,25 @@ namespace SimpleConfigSections
             base.Init();
         }
 
+        protected override void DeserializeSection(XmlReader reader)
+        {
+            base.DeserializeSection(reader);
+            _sectionDeserialized = true;
+        }
+
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
+            // XXX: Mono does load standalone config files
+            //		as a two step process. So during the first
+            //		deserializeElement call we should avoid 
+            //		processing XmlReader contents.
+            if (ReflectionHelpers.RunningOnMono
+                && !string.IsNullOrEmpty(SectionInformation.ConfigSource)
+                && !_sectionDeserialized)
+            {
+                return;
+            }
+
             base.DeserializeElement(reader, serializeCollectionKey);
 
             // XXX: Mono has a bug were it does not correctly
@@ -55,10 +73,13 @@ namespace SimpleConfigSections
                 var missingProperties = ElementInformation.Properties
                     .OfType<PropertyInformation>()
                     .Where(x => x.IsRequired && x.Value == null)
+                    .Distinct()
                     .Select(x => x.Name);
 
                 if (missingProperties.Any())
+                {
                     OnRequiredPropertyNotFound(missingProperties.First());
+                }
             }
         }
     }
