@@ -49,21 +49,21 @@ namespace SimpleConfigSections
             protected override void Register(ConfigurationElement element, params ConfigurationProperty[] configurationProperties)
             {
                 lock (ElementMaps)
-				{
-					var ownerType = element.GetType();
-					var map = ElementMaps[ownerType];
-					if (map == null)
-					{
-						map = ElementMaps[ownerType] = ElementMapCreator(ownerType);
-					}
-					var properties = ElementMapPropertiesAccesor.GetValue(map) as SC.ConfigurationPropertyCollection;
-					if (properties == null)
-					{
-						properties = new SC.ConfigurationPropertyCollection();
-					}
-					ElementMapPropertiesAccesor.SetValue(map, properties);
+                {
+                    var ownerType = element.GetType();
+                    var map = ElementMaps[ownerType];
+                    if (map == null)
+                    {
+                        map = ElementMaps[ownerType] = ElementMapCreator(ownerType);
+                    }
+                    var properties = ElementMapPropertiesAccesor.GetValue(map) as SC.ConfigurationPropertyCollection;
+                    if (properties == null)
+                    {
+                        properties = new SC.ConfigurationPropertyCollection();
+                    }
+                    ElementMapPropertiesAccesor.SetValue(map, properties);
 
-					configurationProperties.ToList().ForEach(x => properties.Add(x));
+                    configurationProperties.ToList().ForEach(x => properties.Add(x));
 
                     var einfo = ElementInformationConstructor(element);
                     ElementInformationAccessor.SetValue(element, einfo);

@@ -111,8 +111,4 @@
   <Target Name="BeforeBuild">
   </Target>
   -->
-  <Target Name="AfterBuild" AfterTargets="Build">
-    <Copy SourceFiles="$(OutDir)\$(TargetFileName)" DestinationFolder="$(SolutionDir)\nugetpackage\lib\net35" OverwriteReadOnlyFiles="true" />
-    <Exec WorkingDirectory="$(SolutionDir)" Command="powershell .\UpdateNuspec.ps1" Condition="$(Configuration) == Nuget" />
-  </Target>
 </Project>
