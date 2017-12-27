@@ -49,10 +49,11 @@ namespace SimpleConfigSections
 
         public virtual string SectionNameByIntefaceType(Type interfaceType)
         {
-            return interfaceType.Name.TrimStart(new[]
-                                                    {
-                                                        'I'
-                                                    });
+            if (interfaceType.Name[0] == 'I')
+            {
+                return interfaceType.Name.Substring(1);
+            }
+            return interfaceType.Name;
         }
 
         public virtual string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
