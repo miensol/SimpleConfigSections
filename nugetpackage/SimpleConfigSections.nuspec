@@ -15,7 +15,7 @@ a mechanism to define your config structure in terms of plain old interfaces.
     <copyright>Copyright 2016</copyright>
     <tags>configuration configurationSection</tags>
     <dependencies>
-      <dependency id="Castle.Core" version="3.0.0.4001" />
+      <dependency id="Castle.Core" version="4.0.0" />
     </dependencies>
   </metadata>
 </package>
