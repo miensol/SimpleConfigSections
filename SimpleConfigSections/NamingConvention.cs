@@ -25,17 +25,17 @@ namespace SimpleConfigSections
             }
         }
 
-        public string SectionNameByIntefaceType<T>()
+        public string SectionNameByInterfaceType<T>()
         {
             var interfaceType = typeof (T);
-            return SectionNameByIntefaceType(interfaceType);
+            return SectionNameByInterfaceType(interfaceType);
         }
 
-        public string SectionNameByIntefaceOrClassType(Type classOrInterface)
+        public string SectionNameByInterfaceOrClassType(Type classOrInterface)
         {
             if (classOrInterface.IsInterface)
             {
-                return SectionNameByIntefaceType(classOrInterface);
+                return SectionNameByInterfaceType(classOrInterface);
             }else
             {
                 return SectionNameByClassType(classOrInterface);
@@ -47,7 +47,7 @@ namespace SimpleConfigSections
             return classOrInterface.Name;
         }
 
-        public virtual string SectionNameByIntefaceType(Type interfaceType)
+        public virtual string SectionNameByInterfaceType(Type interfaceType)
         {
             if (interfaceType.Name[0] == 'I')
             {
@@ -56,7 +56,7 @@ namespace SimpleConfigSections
             return interfaceType.Name;
         }
 
-        public virtual string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
+        public virtual string SectionNameByInterfaceTypeAndPropertyName(Type propertyType, string propertyName)
         {
             return propertyName;
         }
@@ -112,9 +112,9 @@ namespace SimpleConfigSections
                         conv => conv.ClearCollectionElementName(collectionElementType, propertyName));
             }
 
-            public string SectionNameByIntefaceOrClassType(Type classOrInterface)
+            public string SectionNameByInterfaceOrClassType(Type classOrInterface)
             {
-                return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceOrClassType(classOrInterface));
+                return IfEmptyStringThenDefault(conv => conv.SectionNameByInterfaceOrClassType(classOrInterface));
             }
 
             public string SectionNameByClassType(Type classOrInterface)
@@ -123,16 +123,16 @@ namespace SimpleConfigSections
             }
 
 
-            public string SectionNameByIntefaceType(Type interfaceType)
+            public string SectionNameByInterfaceType(Type interfaceType)
             {
-                return IfEmptyStringThenDefault(conv => conv.SectionNameByIntefaceType(interfaceType));
+                return IfEmptyStringThenDefault(conv => conv.SectionNameByInterfaceType(interfaceType));
             }
 
-            public string SectionNameByIntefaceTypeAndPropertyName(Type propertyType, string propertyName)
+            public string SectionNameByInterfaceTypeAndPropertyName(Type propertyType, string propertyName)
             {
                 return
                     IfEmptyStringThenDefault(
-                        conv => conv.SectionNameByIntefaceTypeAndPropertyName(propertyType, propertyName));
+                        conv => conv.SectionNameByInterfaceTypeAndPropertyName(propertyType, propertyName));
             }
 
             public string AttributeName(PropertyInfo propertyInfo)
