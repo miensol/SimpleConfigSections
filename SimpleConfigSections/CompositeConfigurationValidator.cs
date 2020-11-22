@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace SimpleConfigSections
 {
     internal class CompositeConfigurationValidator : ConfigurationValidatorBase
     {
-        private readonly ValidationAttribute[] _validationAttributes;
+        private readonly IEnumerable<ValidationAttribute> _validationAttributes;
         private readonly string _propertyName;
 
-        public CompositeConfigurationValidator(ValidationAttribute[] validationAttributes, string propertyName)
+        public CompositeConfigurationValidator(IEnumerable<ValidationAttribute> validationAttributes, string propertyName)
         {
             _validationAttributes = validationAttributes;
             _propertyName = propertyName;

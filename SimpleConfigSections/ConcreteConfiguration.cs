@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using Castle.DynamicProxy;
 using SimpleConfigSections.BasicExtensions;
-using Castle.Core.Internal;
 
 namespace SimpleConfigSections
 {
@@ -21,7 +19,7 @@ namespace SimpleConfigSections
         public void Intercept(IInvocation invocation)
         {
             if(invocation.Method.DeclaringType.IsInterface ||
-                invocation.Method.HasAttribute<CompilerGeneratedAttribute>()
+                invocation.Method.IsDefined(typeof(CompilerGeneratedAttribute), false)
                 )
             {
                 var propertyInfo = invocation.Method.GetPropertyInfo();
